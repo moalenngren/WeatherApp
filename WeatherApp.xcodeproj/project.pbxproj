@@ -13,6 +13,8 @@
 		7F0526B6205AB3FF0096FFB6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F0526B4205AB3FF0096FFB6 /* Main.storyboard */; };
 		7F0526B8205AB3FF0096FFB6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F0526B7205AB3FF0096FFB6 /* Assets.xcassets */; };
 		7F0526BB205AB3FF0096FFB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F0526B9205AB3FF0096FFB6 /* LaunchScreen.storyboard */; };
+		7F0526C3205AC53C0096FFB6 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0526C2205AC53C0096FFB6 /* HomeTableViewCell.swift */; };
+		7F79800D205BE909000F2202 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F79800C205BE909000F2202 /* SearchTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		7F0526B7205AB3FF0096FFB6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7F0526BA205AB3FF0096FFB6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7F0526BC205AB3FF0096FFB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7F0526C2205AC53C0096FFB6 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
+		7F79800C205BE909000F2202 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +67,8 @@
 				7F0526B7205AB3FF0096FFB6 /* Assets.xcassets */,
 				7F0526B9205AB3FF0096FFB6 /* LaunchScreen.storyboard */,
 				7F0526BC205AB3FF0096FFB6 /* Info.plist */,
+				7F0526C2205AC53C0096FFB6 /* HomeTableViewCell.swift */,
+				7F79800C205BE909000F2202 /* SearchTableViewController.swift */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -141,6 +147,8 @@
 			files = (
 				7F0526B3205AB3FF0096FFB6 /* SecondViewController.swift in Sources */,
 				7F0526AF205AB3FF0096FFB6 /* AppDelegate.swift in Sources */,
+				7F79800D205BE909000F2202 /* SearchTableViewController.swift in Sources */,
+				7F0526C3205AC53C0096FFB6 /* HomeTableViewCell.swift in Sources */,
 				7F0526B1205AB3FF0096FFB6 /* FirstViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
