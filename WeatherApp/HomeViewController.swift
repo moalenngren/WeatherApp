@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FirstViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     let imageArrayTest = ["Sun_App", "SunCloudy_App", "RainCloudy_App", "ThunderCloudy_App", "SnowCloudy_App"]
     let cityArrayTest = ["Stockholm", "Gothenburg", "Skövde", "Lerdala", "New York"]

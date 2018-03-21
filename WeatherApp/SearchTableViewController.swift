@@ -7,11 +7,20 @@
 //
 
 import UIKit
+/*
+struct Hit : Codable {
+    let name : String
+    let sys : [String : String]
+}
+
+struct WeatherResponse : Codable {
+    let list : [Hit]
+}
 
 class SearchTableViewController: UITableViewController, UISearchResultsUpdating {
     
     var searchController : UISearchController!
-    var searchTest = ["Stockholm", "Gothenburg", "Skövde", "New York"]
+    var searchTest : [String] = [] //"Stockholm", "Gothenburg", "Skövde", "New York"
     var searchResult : [String] = []
     
     
@@ -27,18 +36,70 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
         navigationItem.searchController = searchController
     }
     
+    func downloadResults() {
+        if let safeString = searchController.searchBar.text!.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+            let url = URL(string: "http://api.openweathermap.org/data/2.5/find?q=\(safeString)&type=like&APPID=3f4234d2c39ddeec6a596ebd592b0a3f&units=metric") {
+            let request = URLRequest(url: url)
+            let task = URLSession.shared.dataTask(with: request, completionHandler: { (data : Data?, response : URLResponse?, error : Error?) in
+                print("Got response from server")
+                if let actualError = error {
+                    print(actualError)
+                } else {
+                    if let actualData = data {
+                        
+                        let decoder = JSONDecoder()
+                        
+                        do {
+                            let weatherResponse = try decoder.decode(WeatherResponse.self, from: actualData)
+                            print(weatherResponse)
+                            
+                            DispatchQueue.main.async {
+                              /*  for index in weatherResponse {
+                                    for (key, value) in index {
+                                        if key == "title" {
+                                            self.searchTest.append(value)
+                                        }
+                                    }
+                                } */
+                                
+                                
+                                self.searchTest.append(weatherResponse.list[0].name)
+                            //  self.resultTextView.text = duckResponse.RelatedTopics[0].Text
+                                
+                            }
+                        } catch let e {
+                            print("Error parson json: \(e)")
+                        }
+                    } else {
+                        print("Data was nil")
+                    }
+                }
+            })
+            task.resume()
+            print("Sending request")
+        } else {
+            print("Incorrect URL")
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
        // searchController.searchBar.becomeFirstResponder()
     }
     
     func updateSearchResults(for searchController: UISearchController) {
         
+        if searchController.searchBar.text!.count >= 10 {
+        downloadResults()
+        
         if let text = searchController.searchBar.text?.lowercased() {
             searchResult = searchTest.filter({ $0.lowercased().contains(text) })
+            print("filtered")
+            
         } else {
             searchResult = []
         }
         tableView.reloadData()
+    }
     }
     
     var shouldUseSearchResult : Bool {
@@ -132,4 +193,4 @@ class SearchTableViewController: UITableViewController, UISearchResultsUpdating 
     }
     */
 
-}
+} */
