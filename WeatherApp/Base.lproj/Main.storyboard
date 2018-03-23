@@ -231,11 +231,24 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wBK-h1-6ku">
-                                <rect key="frame" x="126" y="517.5" width="123" height="30"/>
+                                <rect key="frame" x="112" y="571" width="151" height="33"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="151" id="ilO-1o-x68"/>
+                                    <constraint firstAttribute="height" constant="33" id="waH-hf-5T4"/>
+                                </constraints>
                                 <state key="normal" title="Add To Favourites">
                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.makeToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="addToFavourites:" destination="eAa-lW-XIp" eventType="touchUpInside" id="aMj-1a-Ib4"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.74130368550000003" green="0.93749443470000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -245,10 +258,10 @@
                             <constraint firstItem="I9K-hP-CjN" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8Jk-ow-ZWh" secondAttribute="leading" id="Adc-To-VEw"/>
                             <constraint firstItem="O7Z-jH-lBO" firstAttribute="leading" secondItem="tC8-ng-tZg" secondAttribute="leading" constant="16" id="Ak5-jE-gft"/>
                             <constraint firstItem="dFk-yx-Hlv" firstAttribute="top" secondItem="I9K-hP-CjN" secondAttribute="bottom" id="Gaa-Hk-ttm"/>
-                            <constraint firstItem="wBK-h1-6ku" firstAttribute="top" secondItem="BRF-OF-v2w" secondAttribute="bottom" constant="8" id="OMf-QE-GOp"/>
                             <constraint firstItem="dFk-yx-Hlv" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8Jk-ow-ZWh" secondAttribute="leading" constant="20" symbolic="YES" id="P8h-Wi-t3W"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="O7Z-jH-lBO" secondAttribute="trailing" constant="20" symbolic="YES" id="RTn-cF-DeS"/>
                             <constraint firstItem="tC8-ng-tZg" firstAttribute="trailing" secondItem="dFk-yx-Hlv" secondAttribute="trailing" constant="16" id="THg-Df-Ppq"/>
+                            <constraint firstItem="tC8-ng-tZg" firstAttribute="bottom" secondItem="wBK-h1-6ku" secondAttribute="bottom" constant="14" id="UK4-c1-eC8"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="ZvA-2Q-lsR" secondAttribute="trailing" constant="20" symbolic="YES" id="V1w-o1-sfG"/>
                             <constraint firstItem="O7Z-jH-lBO" firstAttribute="top" secondItem="ZvA-2Q-lsR" secondAttribute="bottom" constant="7.5" id="i7S-Ec-UBn"/>
                             <constraint firstItem="ZvA-2Q-lsR" firstAttribute="top" secondItem="tC8-ng-tZg" secondAttribute="top" constant="16" id="lKW-Q4-JHw"/>
@@ -260,6 +273,7 @@
                         <viewLayoutGuide key="safeArea" id="tC8-ng-tZg"/>
                     </view>
                     <connections>
+                        <outlet property="addButton" destination="wBK-h1-6ku" id="koU-ww-1zI"/>
                         <outlet property="cityLabel" destination="ZvA-2Q-lsR" id="ebf-K7-Ncn"/>
                         <outlet property="countryLabel" destination="O7Z-jH-lBO" id="gqw-iX-F3G"/>
                         <outlet property="degreesLabel" destination="I9K-hP-CjN" id="O0y-XF-hZ8"/>

@@ -11,6 +11,7 @@ import UIKit
 class SearchTableViewCell: UITableViewCell {
 
     @IBOutlet weak var searchCellLabel: UILabel!
+    var cellIndex : Int!
     
     override func awakeFromNib() {
         super.awakeFromNib()

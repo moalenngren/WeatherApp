@@ -10,6 +10,7 @@ import UIKit
 
 class DetailViewController: UIViewController {
 
+    @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var countryLabel: UILabel!
     @IBOutlet weak var degreesLabel: UILabel!
@@ -20,6 +21,9 @@ class DetailViewController: UIViewController {
     var countryLabelString = ""
     var degreesLabelString = ""
     var windLabelString = ""
+    //var saveAs = ["":0]
+    var cellIndex = 0
+    var id = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,22 +33,34 @@ class DetailViewController: UIViewController {
         countryLabel.text = countryLabelString
         degreesLabel.text = degreesLabelString
         windLabel.text = windLabelString
-        
+       // saveAs = [cityLabelString : cellIndex]
+        changeButtonLabel()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    func changeButtonLabel() {
+        if favArray.contains(id)  {
+            addButton.setTitle("Remove Favourite", for: .normal)
+            print("Item is a favourite, changes label to Remove From Favourites")
+        } else {
+            addButton.setTitle("Add To Favourites", for: .normal)
+            print("Item is not favourite, changes label to Add To Favourites")
+        }
     }
-    */
-
+    
+    //Move this content to Model?????
+    @IBAction func addToFavourites(_ sender: UIButton) {
+       if favArray.contains(id) {
+            favArray = favArray.filter() {$0 != id}
+            print("Removes from favourites, the array is: \(favArray)")
+        } else {
+            favArray.append(id)
+            print("Adds to favourites, the array is: \(favArray[0])")
+        }
+       changeButtonLabel()
+    }
 }
+
