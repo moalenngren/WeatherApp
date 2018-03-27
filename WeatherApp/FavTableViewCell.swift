@@ -13,6 +13,7 @@ class FavTableViewCell: UITableViewCell {
     @IBOutlet weak var favCellCity: UILabel!
     @IBOutlet weak var favCellCountry: UILabel!
     @IBOutlet weak var favCellDegrees: UILabel!
+    var cellIndex : Int!
     
     override func awakeFromNib() {
         super.awakeFromNib()

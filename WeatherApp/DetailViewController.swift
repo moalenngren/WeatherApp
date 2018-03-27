@@ -27,13 +27,14 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         photo.image = UIImage(named: photoString)
         cityLabel.text = cityLabelString
         countryLabel.text = countryLabelString
         degreesLabel.text = degreesLabelString
         windLabel.text = windLabelString
-       // saveAs = [cityLabelString : cellIndex]
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
         changeButtonLabel()
     }
 

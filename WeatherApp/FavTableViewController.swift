@@ -9,11 +9,6 @@
 import UIKit
 
 class FavTableViewController: UITableViewController {
-/*
-    var tempFavCities = ["Skövde", "Norrköping", "Berlin"]
-    var tempFavImages = ["Sun_App", "SunCloudy_App", "RainCloudy_App"]
-    var tempFavDegrees = ["+24*C", "+3*C", "-5*C"]
-    var tempFavCountries = ["Sweden", "Sweden", "Germany"] */
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,8 +20,9 @@ class FavTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
+        print("ViewWILLAppear: RELOADS")
     }
 
     // MARK: - Table view data source
@@ -44,15 +40,21 @@ class FavTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "FavCell", for: indexPath) as! FavTableViewCell
         
-        searchResult = []
-       // searchForHits(searchString: favArray[indexPath.row], searchTableView: tableView)
-        
-        cell.favCellImage.image = UIImage(named: getWeatherString(index: indexPath.row))
-        cell.favCellCity.text = getCityName(index: indexPath.row)
-        cell.favCellCountry.text = getCountry(index: indexPath.row)
-        cell.favCellDegrees.text = getDegrees(index: indexPath.row)
-
+        //WHY IS THIS LOOPING?!???!!?
+        searchForHits(searchType: "weather?id=", searchString: String(favArray[indexPath.row]), tableView: self.tableView, function: {
+            
+          // här körs när den är klar!
+            cell.favCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png") 
+            cell.favCellCity.text = idResponse.name
+            cell.favCellCountry.text = idResponse.sys.country
+            cell.favCellDegrees.text = String(format: "%.1f °C", idResponse.main["temp"]!)
+            
+        })
         return cell
+    }
+    
+    func setCellValues() {
+        
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -66,7 +68,6 @@ class FavTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             favArray.remove(at: indexPath.row)
-         
             tableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -83,15 +84,24 @@ class FavTableViewController: UITableViewController {
         return true
     }
 
-
-    /*
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let cell = sender as! FavTableViewCell
+    //    searchForHits(searchType: "weather?id=", searchString: String(favArray[cell.cellIndex]), tableView: tableView, function: {
+            
+            if segue.identifier == "Detail" {
+                let next : DetailViewController = segue.destination as! DetailViewController
+            next.cityLabelString = idResponse.name
+            next.countryLabelString = idResponse.sys.country
+          //  next.countryLabelString = idResponse.sys[0].country
+            next.degreesLabelString = String(format: "%.1f °C", idResponse.main["temp"]!)
+            next.windLabelString = String(format: "%.1f m / s", idResponse.wind["speed"]!)
+            next.photoString = "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png"
+          //  next.cellIndex = cell.cellIndex
+            next.id = Int(idResponse.id)
+                
+            }
+      //  })
     }
-    */
-
 }

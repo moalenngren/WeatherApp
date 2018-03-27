@@ -13,6 +13,7 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var homeCellCity: UILabel!
     @IBOutlet weak var homeCellCountry: UILabel!
     @IBOutlet weak var homeCellDegrees: UILabel!
+    var cellIndex : Int!
     
     override func awakeFromNib() {
         super.awakeFromNib()

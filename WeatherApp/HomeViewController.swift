@@ -19,6 +19,13 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         return imageArrayTest.count
     }
     
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+       /* if section == 0 {
+            return "Recent"
+        } */
+        return "Recent Searches"
+    }
+    
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -37,7 +44,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     // func when rows are clicked = opens detail view
     // func when no places are searched for is empty = set header to popular places
-    // and if not, set to recent seraches
+    // and if not, set to recent searches
     
     override func viewDidLoad() {
         super.viewDidLoad()

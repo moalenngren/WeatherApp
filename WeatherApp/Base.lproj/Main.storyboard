@@ -71,7 +71,7 @@
                                     <outlet property="favCellCountry" destination="Dpx-vk-MU7" id="7eK-Jj-0kq"/>
                                     <outlet property="favCellDegrees" destination="CIm-Zj-K0K" id="gBv-Na-ybB"/>
                                     <outlet property="favCellImage" destination="Uc4-rP-VuX" id="iit-T0-VUh"/>
-                                    <segue destination="eAa-lW-XIp" kind="show" id="wPz-Mf-sl5"/>
+                                    <segue destination="eAa-lW-XIp" kind="show" identifier="Detail" id="wPz-Mf-sl5"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -285,38 +285,6 @@
             </objects>
             <point key="canvasLocation" x="2164" y="-321.58920539730138"/>
         </scene>
-        <!--Search Locations-->
-        <scene sceneID="9sd-VS-P7R">
-            <objects>
-                <tableViewController id="5yn-DO-BQb" customClass="SearchTableViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="fUN-dr-m3Q">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="8ev-Yd-7tf">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="8ev-Yd-7tf" id="xAP-cl-ZyO">
-                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="eAa-lW-XIp" kind="show" id="cwY-wA-x8G"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="5yn-DO-BQb" id="pMi-fH-PSP"/>
-                            <outlet property="delegate" destination="5yn-DO-BQb" id="tZB-UV-Y8Q"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Search Locations" id="QvW-9q-eZu"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="SYF-GZ-XT1" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1095.2" y="439.43028485757122"/>
-        </scene>
         <!--Search Location-->
         <scene sceneID="uM1-5x-EwU">
             <objects>
@@ -418,22 +386,6 @@
             </objects>
             <point key="canvasLocation" x="1996" y="1131.1844077961021"/>
         </scene>
-        <!--Stats-->
-        <scene sceneID="t0f-lJ-Lps">
-            <objects>
-                <viewController id="Zuq-ik-8HY" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Gyl-zF-Nv1">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.74130368550000003" green="0.93749443470000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <viewLayoutGuide key="safeArea" id="Xrr-Zz-aWb"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Stats" id="EKm-g6-ioi"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="0Y9-7t-dr5" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="316" y="1150"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
@@ -447,10 +399,9 @@
                     </tabBar>
                     <connections>
                         <segue destination="1cq-09-4ZD" kind="relationship" relationship="viewControllers" id="u7Y-xg-7CH"/>
-                        <segue destination="Zuq-ik-8HY" kind="relationship" relationship="viewControllers" id="hGE-Q9-Ban"/>
-                        <segue destination="ZLC-vK-SCY" kind="relationship" relationship="viewControllers" id="6sx-aM-9TR"/>
                         <segue destination="vCv-wA-M2i" kind="relationship" relationship="viewControllers" id="uTB-02-UVQ"/>
                         <segue destination="QYa-em-AZa" kind="relationship" relationship="viewControllers" id="LQz-jd-qx2"/>
+                        <segue destination="lFS-yL-mrv" kind="relationship" relationship="viewControllers" id="wRh-vF-9KZ"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -476,25 +427,6 @@
             </objects>
             <point key="canvasLocation" x="316" y="-321"/>
         </scene>
-        <!--oldsearch-->
-        <scene sceneID="Ba8-lj-2n3">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ZLC-vK-SCY" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="oldsearch" id="Wjs-LN-KBI"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="olw-Lg-F5p">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="5yn-DO-BQb" kind="relationship" relationship="rootViewController" id="hup-cU-T7y"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6F9-ny-dCH" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="316" y="439"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="fFf-T8-Nnc">
             <objects>
@@ -513,6 +445,77 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sgw-QP-qqi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="316" y="-1012"/>
+        </scene>
+        <!--Stats-->
+        <scene sceneID="gq7-cz-N0a">
+            <objects>
+                <viewController id="lFS-yL-mrv" customClass="StatsViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Nvb-d9-2jv">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qbi-10-OSL">
+                                <rect key="frame" x="0.0" y="28" width="186" height="85"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="85" id="x5A-E9-W0r"/>
+                                    <constraint firstAttribute="width" constant="186" id="zHn-rL-djS"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="lFS-yL-mrv" id="vTZ-Aw-QPj"/>
+                                    <outlet property="delegate" destination="lFS-yL-mrv" id="q5c-f2-EK4"/>
+                                </connections>
+                            </pickerView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OET-yp-JGY">
+                                <rect key="frame" x="194" y="28" width="181" height="85"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="85" id="BWi-OQ-HNa"/>
+                                    <constraint firstAttribute="width" constant="181" id="zQg-dC-w6T"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="dataSource" destination="lFS-yL-mrv" id="5dR-rY-iiZ"/>
+                                    <outlet property="delegate" destination="lFS-yL-mrv" id="YOF-eZ-HH9"/>
+                                </connections>
+                            </pickerView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="igk-sS-B9P">
+                                <rect key="frame" x="48.5" y="117" width="278" height="35"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="ZaE-SQ-sUY"/>
+                                    <constraint firstAttribute="width" constant="278" id="fRh-aM-gXv"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="Compare These Favourite Cities"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.makesToBounds" value="YES"/>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="compareButton:" destination="lFS-yL-mrv" eventType="touchUpInside" id="aYS-mB-DdD"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.74130368550000003" green="0.93749443470000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Qbi-10-OSL" firstAttribute="leading" secondItem="Gap-lB-6XF" secondAttribute="leading" id="3pK-Sf-CZs"/>
+                            <constraint firstItem="Qbi-10-OSL" firstAttribute="top" secondItem="Gap-lB-6XF" secondAttribute="top" constant="8" id="4K6-Vb-OZT"/>
+                            <constraint firstItem="igk-sS-B9P" firstAttribute="centerX" secondItem="Gap-lB-6XF" secondAttribute="centerX" id="Lwp-9U-llj"/>
+                            <constraint firstItem="igk-sS-B9P" firstAttribute="top" secondItem="Qbi-10-OSL" secondAttribute="bottom" constant="4" id="XLn-yq-GRI"/>
+                            <constraint firstItem="OET-yp-JGY" firstAttribute="trailing" secondItem="Gap-lB-6XF" secondAttribute="trailing" id="XXF-Nv-Mam"/>
+                            <constraint firstItem="OET-yp-JGY" firstAttribute="top" secondItem="Gap-lB-6XF" secondAttribute="top" constant="8" id="a4b-a1-XOd"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Gap-lB-6XF"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Stats" id="lcz-Ib-saR"/>
+                    <connections>
+                        <outlet property="picker1" destination="Qbi-10-OSL" id="pvG-5p-NVg"/>
+                        <outlet property="picker2" destination="OET-yp-JGY" id="E7D-0b-izA"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FGa-jp-DBf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-879.20000000000005" y="947.67616191904051"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="K6g-62-6g6">

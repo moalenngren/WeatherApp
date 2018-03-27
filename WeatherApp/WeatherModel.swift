@@ -8,7 +8,6 @@
 
 import UIKit
 
-//var favArray : [[String : Int]] = [[:]]
 var favArray : [Int] = []
 var searchResult : [String] = []
 var weatherResponse = WeatherResponse(count: 0, list: [List(name: "",
@@ -19,6 +18,25 @@ var weatherResponse = WeatherResponse(count: 0, list: [List(name: "",
                                                             weather: [Weather(
                                                                 description: "",
                                                                 icon: "")])])
+
+/*
+var idResponse = List(name: "",
+                      id: 0,
+                      sys: ["":""],
+                      main: ["" : 0.0],
+                      wind: ["" : 0.0],
+                      weather: [Weather(
+                        description: "",
+                        icon: "")]) */
+var idResponse = ListId(name: "",
+                      id: 0,
+                      sys: Sys(country: "", sunrise: 0, sunset: 0),
+                      main: ["" : 0.0],
+                      wind: ["" : 0.0],
+                      weather: [Weather(
+                        description: "",
+                        icon: "")])
+
 struct Weather : Codable {
     let description : String
     let icon : String
@@ -27,8 +45,8 @@ struct Weather : Codable {
 struct List : Codable {
     let name : String
     let id : Int
-    let sys : [String : String]
-    let main : [String : Float]
+    let sys : [String : String] //"country" : "SE" // Ändras till Any
+    let main : [String : Float] //"temp" : 12345
     let wind : [String : Float]
     let weather : [Weather]
 }
@@ -38,12 +56,33 @@ struct WeatherResponse : Codable {
     let list : [List]
     
 }
+
+// idResponse --------------------------------
+
+struct Sys : Codable {
+  //  let type : Int
+ //   let id : Int
+  //  let message : Double
+    let country : String
+    let sunrise : Int
+    let sunset : Int
+}
+
+struct ListId : Codable {
+    let name : String
+    let id : Int
+    let sys : Sys
+    let main : [String : Float] //"temp" : 12345
+    let wind : [String : Float]
+    let weather : [Weather]
+}
         
-func searchForHits(searchString: String?, searchTableView : UITableView) {
+func searchForHits(searchType: String, searchString: String?, tableView : UITableView, function: @escaping () -> ()) {
     searchResult = []
+    
     weatherResponse = WeatherResponse(count: 0, list: [List(name: "",
-                                                                id: 0,
-                                                                sys: ["" : ""],
+                                                            id: 0,
+                                                            sys: ["" : ""],
                                                                 main: ["" : 0.0],
                                                                 wind: ["" : 0.0],
                                                                 weather: [Weather(
@@ -51,7 +90,7 @@ func searchForHits(searchString: String?, searchTableView : UITableView) {
                                                                     icon: "")])])
     
     if let safeString = searchString?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-    let url = URL(string: "http://api.openweathermap.org/data/2.5/find?q=\(safeString)&type=like&APPID=3f4234d2c39ddeec6a596ebd592b0a3f&units=metric") {
+    let url = URL(string: "http://api.openweathermap.org/data/2.5/\(searchType)\(safeString)&type=like&APPID=3f4234d2c39ddeec6a596ebd592b0a3f&units=metric") {
         let request = URLRequest(url: url)
         let task = URLSession.shared.dataTask(with: request, completionHandler: { (data : Data?, response : URLResponse?, error : Error?) in
             print("Got response from server")
@@ -63,23 +102,35 @@ func searchForHits(searchString: String?, searchTableView : UITableView) {
                     let decoder = JSONDecoder()
                     
                     do {
-                        // let weatherResponse = try decoder.decode(WeatherResponse.self, from: actualData)
+                        
+                        if searchType == "find?q=" {
                         weatherResponse = try decoder.decode(WeatherResponse.self, from: actualData)
                         print(weatherResponse)
+                        } else {
+                        
+                        idResponse = try decoder.decode(ListId.self, from: actualData)
+                        print(idResponse)
+                        }
                         
                         DispatchQueue.main.async {
                             
+                            if searchType == "find?q=" {
                             for x in 0..<weatherResponse.count {
-                                searchResult.append(weatherResponse.list[x].name + ", " + weatherResponse.list[x].sys["country"]!)
+                            searchResult.append(weatherResponse.list[x].name + ", " + weatherResponse.list[x].sys["country"]!)
+                              //  searchResult.append(weatherResponse.list[x].name + ", " + weatherResponse.list[x].sys[0].country)
                             }
-                            print("Count is: \(weatherResponse.count)")
+                            print("Search count is: \(weatherResponse.count)")
+                            } else {
+                                print("idResponse is finished")
+                            }
                             
-                            searchTableView.reloadData()
+                            tableView.reloadData()
+                            function() // Det är klart!
                             print("The search array: \(searchResult)")
                             
                         }
                     } catch let e {
-                        print("Error parson json: \(e)")
+                        print("Error parsing json: \(e)")
                     }
                 } else {
                     print("Data was nil")
@@ -103,7 +154,8 @@ func getCityName(index: Int) -> String {
 }
 
 func getCountry(index: Int) -> String {
-    return weatherResponse.list[index].sys["country"]!
+   return weatherResponse.list[index].sys["country"]!
+   // return weatherResponse.list[index].sys[0].country
 }
 
 func getDegrees(index: Int) -> String {
@@ -114,8 +166,6 @@ func getWind(index: Int) -> String {
     return String(format: "%.1f m / s", weatherResponse.list[index].wind["speed"]!)
 }
 
-
-//May not be useful. Change the names of the pics according to the json instead! And set image to WeatherModel.photo + ".png"
 func getWeatherPhoto(weather : String) -> String {
     switch weather {
     case "01d", "01n":
@@ -129,7 +179,7 @@ func getWeatherPhoto(weather : String) -> String {
     case "13d", "13n":
         return "SnowCloudy_App"
     case "50d", "50n":
-        return "SunCloudy_App" //CHANGE TO MIST_APP
+        return "SunCloudy_App" //CHANGE TO MIST_APP & ALSO DO NIGHT VERSIONS?
     default:
         return "NoImage"
     }
@@ -138,5 +188,6 @@ func getWeatherPhoto(weather : String) -> String {
 func getWeatherString(index: Int) -> String {
     return "\(getWeatherPhoto(weather: weatherResponse.list[index].weather[0].icon)).png"
 }
+
 
 
