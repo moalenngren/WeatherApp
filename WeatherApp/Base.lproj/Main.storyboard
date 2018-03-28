@@ -495,12 +495,20 @@
                                     <action selector="compareButton:" destination="lFS-yL-mrv" eventType="touchUpInside" id="aYS-mB-DdD"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LoP-vB-qE6">
+                                <rect key="frame" x="16" y="168" width="343" height="354"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" red="0.74130368550000003" green="0.93749443470000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="LoP-vB-qE6" firstAttribute="top" secondItem="igk-sS-B9P" secondAttribute="bottom" constant="16" id="2fY-Z0-iz5"/>
                             <constraint firstItem="Qbi-10-OSL" firstAttribute="leading" secondItem="Gap-lB-6XF" secondAttribute="leading" id="3pK-Sf-CZs"/>
                             <constraint firstItem="Qbi-10-OSL" firstAttribute="top" secondItem="Gap-lB-6XF" secondAttribute="top" constant="8" id="4K6-Vb-OZT"/>
+                            <constraint firstItem="LoP-vB-qE6" firstAttribute="leading" secondItem="Gap-lB-6XF" secondAttribute="leading" constant="16" id="F7A-rl-v6T"/>
+                            <constraint firstItem="Gap-lB-6XF" firstAttribute="trailing" secondItem="LoP-vB-qE6" secondAttribute="trailing" constant="16" id="I4B-nv-xxU"/>
                             <constraint firstItem="igk-sS-B9P" firstAttribute="centerX" secondItem="Gap-lB-6XF" secondAttribute="centerX" id="Lwp-9U-llj"/>
+                            <constraint firstItem="Gap-lB-6XF" firstAttribute="bottom" secondItem="LoP-vB-qE6" secondAttribute="bottom" constant="96" id="VMJ-Oo-BtZ"/>
                             <constraint firstItem="igk-sS-B9P" firstAttribute="top" secondItem="Qbi-10-OSL" secondAttribute="bottom" constant="4" id="XLn-yq-GRI"/>
                             <constraint firstItem="OET-yp-JGY" firstAttribute="trailing" secondItem="Gap-lB-6XF" secondAttribute="trailing" id="XXF-Nv-Mam"/>
                             <constraint firstItem="OET-yp-JGY" firstAttribute="top" secondItem="Gap-lB-6XF" secondAttribute="top" constant="8" id="a4b-a1-XOd"/>
@@ -515,7 +523,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FGa-jp-DBf" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-879.20000000000005" y="947.67616191904051"/>
+            <point key="canvasLocation" x="-879.20000000000005" y="946.77661169415296"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="K6g-62-6g6">

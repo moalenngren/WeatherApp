@@ -14,7 +14,6 @@
 		7F0526BB205AB3FF0096FFB6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F0526B9205AB3FF0096FFB6 /* LaunchScreen.storyboard */; };
 		7F0526C3205AC53C0096FFB6 /* HomeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F0526C2205AC53C0096FFB6 /* HomeTableViewCell.swift */; };
 		7F1D625F20690F0500754A7A /* StatsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F1D625E20690F0500754A7A /* StatsViewController.swift */; };
-		7F79800D205BE909000F2202 /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F79800C205BE909000F2202 /* SearchTableViewController.swift */; };
 		7F798015205E84B1000F2202 /* FavTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F798014205E84B1000F2202 /* FavTableViewController.swift */; };
 		7F798017205E8788000F2202 /* FavTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F798016205E8788000F2202 /* FavTableViewCell.swift */; };
 		7F798019205F0FFD000F2202 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F798018205F0FFD000F2202 /* WeatherModel.swift */; };
@@ -33,7 +32,6 @@
 		7F0526BC205AB3FF0096FFB6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7F0526C2205AC53C0096FFB6 /* HomeTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTableViewCell.swift; sourceTree = "<group>"; };
 		7F1D625E20690F0500754A7A /* StatsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewController.swift; sourceTree = "<group>"; };
-		7F79800C205BE909000F2202 /* SearchTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 		7F798014205E84B1000F2202 /* FavTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavTableViewController.swift; sourceTree = "<group>"; };
 		7F798016205E8788000F2202 /* FavTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavTableViewCell.swift; sourceTree = "<group>"; };
 		7F798018205F0FFD000F2202 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
@@ -79,7 +77,6 @@
 				7F0526B9205AB3FF0096FFB6 /* LaunchScreen.storyboard */,
 				7F0526BC205AB3FF0096FFB6 /* Info.plist */,
 				7F0526C2205AC53C0096FFB6 /* HomeTableViewCell.swift */,
-				7F79800C205BE909000F2202 /* SearchTableViewController.swift */,
 				7F798014205E84B1000F2202 /* FavTableViewController.swift */,
 				7F798016205E8788000F2202 /* FavTableViewCell.swift */,
 				7F798018205F0FFD000F2202 /* WeatherModel.swift */,
@@ -168,7 +165,6 @@
 				7F798017205E8788000F2202 /* FavTableViewCell.swift in Sources */,
 				7F0526AF205AB3FF0096FFB6 /* AppDelegate.swift in Sources */,
 				7F79801B205FF277000F2202 /* SearchViewController.swift in Sources */,
-				7F79800D205BE909000F2202 /* SearchTableViewController.swift in Sources */,
 				7F798019205F0FFD000F2202 /* WeatherModel.swift in Sources */,
 				7F0526C3205AC53C0096FFB6 /* HomeTableViewCell.swift in Sources */,
 				7F79801F20616005000F2202 /* DetailViewController.swift in Sources */,

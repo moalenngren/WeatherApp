@@ -15,7 +15,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var searchField: UITextField!
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return getWeatherResponse().count
+      //  return getWeatherResponse().count
+        return searchResult.count
     }
    
     @IBAction func searchButtonClicked(_ sender: Any) {
@@ -38,16 +39,22 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         searchField.text = ""
+        searchResult = []
+        searchTableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
+    func changeRecentArray() {
+        
+    }
+    
     func createURL() {
-        searchResult = []
+      //  searchResult = []
         searchForHits(searchType: "find?q=", searchString: self.searchField.text, tableView: searchTableView, function: {})
     }
     
@@ -64,7 +71,8 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     next.windLabelString = getWind(index: cell.cellIndex)
                     next.photoString = getWeatherString(index: cell.cellIndex)
                     next.cellIndex = cell.cellIndex
-                    next.id = weatherResponse.list[cell.cellIndex].id 
+                    next.id = weatherResponse.list[cell.cellIndex].id
+                    recentArray.append(idResponse.id)
         }
     }
 }
