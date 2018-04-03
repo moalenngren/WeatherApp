@@ -7,13 +7,11 @@
 //
 
 import UIKit
+import GraphKit 
 
-class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
-
-    @IBAction func compareButton(_ sender: Any) {
-        drawRect()
-    }
+class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, GKBarGraphDataSource {
     
+    @IBOutlet weak var diagram: GKBarGraph!
     @IBOutlet weak var picker1: UIPickerView!
     @IBOutlet weak var picker2: UIPickerView!
     
@@ -22,15 +20,49 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     
     var testNameArray = ["Skövde", "Stockholm", "Floby", "Madrid", "Göteborg"]
     var testValueArray = [30, 50]
+    var diagramTitles = ["Temp", "Temp", "Wind", "Wind", "Rain", "Rain"]
+    var diagramColors = [UIColor.red, UIColor.red, UIColor.gray, UIColor.gray, UIColor.blue, UIColor.blue]
+    var diagramValues = [20, 60, 100, 80, 40, 90]
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        diagram.dataSource = self
+        diagram.barHeight = 300
+        diagram.barWidth = 40
+        diagram.draw()
+        
         self.picker1.delegate = self
         self.picker1.dataSource = self
         self.picker2.delegate = self
         self.picker2.dataSource = self
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        loadFavouritesFromDefaults()
+        picker1.reloadAllComponents()
+        picker2.reloadAllComponents()
+    }
+    
+    func numberOfBars() -> Int {
+        return 6
+    }
+    
+    func valueForBar(at index: Int) -> NSNumber! {
+        return diagramValues[index] as NSNumber
+    }
+    
+    func titleForBar(at index: Int) -> String! {
+        return diagramTitles[index]
+    }
+    
+    func colorForBar(at index: Int) -> UIColor! {
+        return diagramColors[index]
+    }
+    
+    @IBAction func compareButton(_ sender: Any) {
+        drawRect()
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,25 +85,16 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     
     // The number of rows of data
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return testNameArray.count
+        return favArray.count
     }
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return testNameArray[row]
+        print("favArray is \(favArray)" )
+        return favArray[row]["name"]
     }
     
     func drawRect() {
-        print("Drawing rect")
-        let renderer = UIGraphicsImageRenderer(size: CGSize(width: 512, height: 512))
-        let img = renderer.image { ctx in
-            ctx.cgContext.setFillColor(UIColor.red.cgColor)
-            ctx.cgContext.setStrokeColor(UIColor.green.cgColor)
-            ctx.cgContext.setLineWidth(10)
-            
-            let rectangle = CGRect(x: 0, y: 0, width: 512, height: 512)
-            ctx.cgContext.addRect(rectangle)
-            ctx.cgContext.drawPath(using: .fillStroke)
-        }
+
     }
 }

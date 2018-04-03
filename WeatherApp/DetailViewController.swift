@@ -11,6 +11,7 @@ import UIKit
 class DetailViewController: UIViewController {
 
     @IBOutlet weak var addButton: UIButton!
+    @IBOutlet weak var recommendationText: UITextView!
     @IBOutlet weak var cityLabel: UILabel!
     @IBOutlet weak var countryLabel: UILabel!
     @IBOutlet weak var degreesLabel: UILabel!
@@ -21,9 +22,9 @@ class DetailViewController: UIViewController {
     var countryLabelString = ""
     var degreesLabelString = ""
     var windLabelString = ""
-    //var saveAs = ["":0]
     var cellIndex = 0
     var id = 0
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +36,11 @@ class DetailViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         changeButtonLabel()
+        calculateRecommendation()
     }
 
     override func didReceiveMemoryWarning() {
@@ -43,7 +48,7 @@ class DetailViewController: UIViewController {
     }
     
     func changeButtonLabel() {
-        if favArray.contains(id)  {
+        if favArray.contains(where: {$0 == ["name": cityLabelString, "id": String(id)]}) {
             addButton.setTitle("Remove Favourite", for: .normal)
             print("Item is a favourite, changes label to Remove From Favourites")
         } else {
@@ -54,14 +59,28 @@ class DetailViewController: UIViewController {
     
     //Move this content to Model?????
     @IBAction func addToFavourites(_ sender: UIButton) {
-       if favArray.contains(id) {
-            favArray = favArray.filter() {$0 != id}
-            print("Removes from favourites, the array is: \(favArray)")
+        if favArray.contains(where: {$0 == ["name": cityLabelString, "id": String(id)]}) {
+            favArray = favArray.filter() {$0 != ["name": cityLabelString, "id": String(id)]}
+            print("Removes from favourites, the favArray is now: \(favArray)")
         } else {
-            favArray.append(id)
-            print("Adds to favourites, the array is: \(favArray[0])")
+            favArray.append(["name" : cityLabelString, "id": String(id)])
+            print("Adds name + id to favourites, the favArray is now: \(favArray)")
         }
+        saveFavouritesToUserDefaults(favArray : favArray)
        changeButtonLabel()
+    }
+    
+    func calculateRecommendation() {
+        var string : String
+        
+        switch photoString {
+        case "01d":
+            string = "It's sunny today"
+        default:
+            string = "No recommendations for you today"
+        }
+        self.recommendationText.text = string
+        
     }
 }
 

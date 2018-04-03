@@ -12,6 +12,7 @@ class FavTableViewCell: UITableViewCell {
     @IBOutlet weak var favCellImage: UIImageView!
     @IBOutlet weak var favCellCity: UILabel!
     @IBOutlet weak var favCellCountry: UILabel!
+    @IBOutlet weak var favCellWind: UILabel!
     @IBOutlet weak var favCellDegrees: UILabel!
     var cellIndex : Int!
     

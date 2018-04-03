@@ -9,14 +9,21 @@
 import UIKit
 
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-
+    @IBOutlet weak var homeTableView: UITableView!
+    
+    /*
     let imageArrayTest = ["Sun_App", "SunCloudy_App", "RainCloudy_App", "ThunderCloudy_App", "SnowCloudy_App"]
     let cityArrayTest = ["Stockholm", "Gothenburg", "Skövde", "Lerdala", "New York"]
     let countryArrayTest = ["Sweden", "Sweden", "Sweden", "Sweden", "USA"]
-    let degreeArrayTest = ["+3°", "-1°", "-10°", "-13°", "+5°"]
+    let degreeArrayTest = ["+3°", "-1°", "-10°", "-13°", "+5°"] */
+    
+    override func viewWillAppear(_ animated: Bool) {
+        loadRecentsFromDefaults()
+        homeTableView.reloadData()
+    }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return imageArrayTest.count
+        return recentArray.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -28,14 +35,35 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCell", for: indexPath) as! HomeTableViewCell
-        cell.homeCellImage.image = UIImage(named: imageArrayTest[indexPath.row]+".png")
-        cell.homeCellCity.text = cityArrayTest[indexPath.row]
-        cell.homeCellCountry.text = countryArrayTest[indexPath.row]
-        cell.homeCellDegrees.text = degreeArrayTest[indexPath.row]
         
-        return (cell)
+         searchForHits(searchType: "weather?id=", searchString: recentArray[indexPath.row]["id"], tableView: nil, function: {
+            
+        cell.homeCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png")
+        cell.homeCellCity.text = recentArray[indexPath.row]["name"]!
+        cell.homeCellCountry.text = "\(idResponse.name), \(idResponse.sys.country)"
+        cell.homeCellDegrees.text = String(format: "%.1f °C", idResponse.main["temp"]!)
+            
+        })
+        
+        return cell
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let cell = sender as! HomeTableViewCell
+        
+        if segue.identifier == "Detail" {
+            let next : DetailViewController = segue.destination as! DetailViewController
+            
+            next.cityLabelString = ""
+            next.cityLabelString = ""
+            next.degreesLabelString = ""
+            
+            //do a [[String:String]] like favTableView ???
+            
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -49,7 +77,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-       
     }
 
     override func didReceiveMemoryWarning() {

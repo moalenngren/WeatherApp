@@ -9,10 +9,16 @@
 import UIKit
 
 var defaults = UserDefaults.standard
-var favArray : [Int] = []
-var recentArray : [Int] = []
+//var favArray : [FavItem] = []
+//var favArray : [[String : String]] () //= [[:]]
+var favArray : [[String : String]] = []
+var recentArray : [[String : String]] = []
+var favStringArray : [String] = [] //remove?
 var searchResult : [String] = []
-var weatherResponse = WeatherResponse(count: 0, list: [List(name: "",
+var favResult : [ListId] = [] //remove?
+var searchResultMunicipalityStrings : [String] = [] //remove?
+var searchResultMunicipality : [Int] = [] //remove?
+var weatherResponse = WeatherResponse(count: 0, list: [List(name: "", //Ändra till []????
                                                             id: 0,
                                                             sys: ["" : ""],
                                                             main: ["" : 0.0],
@@ -30,6 +36,9 @@ var idResponse = List(name: "",
                       weather: [Weather(
                         description: "",
                         icon: "")]) */
+
+
+
 var idResponse = ListId(name: "",
                       id: 0,
                       sys: Sys(country: "", sunrise: 0, sunset: 0),
@@ -39,6 +48,11 @@ var idResponse = ListId(name: "",
                         description: "",
                         icon: "")])
 
+struct FavItem { //Delete this??
+    var id = 0
+    var name = ""
+}
+
 struct Weather : Codable {
     let description : String
     let icon : String
@@ -47,7 +61,7 @@ struct Weather : Codable {
 struct List : Codable {
     let name : String
     let id : Int
-    let sys : [String : String] //"country" : "SE" // Ändras till Any
+    let sys : [String : String] //"country" : "SE"
     let main : [String : Float] //"temp" : 12345
     let wind : [String : Float]
     let weather : [Weather]
@@ -79,8 +93,10 @@ struct ListId : Codable {
     let weather : [Weather]
 }
         
-func searchForHits(searchType: String, searchString: String?, tableView : UITableView, function: @escaping () -> ()) {
+func searchForHits(searchType: String, searchString: String?, tableView : UITableView?, function: @escaping () -> ()) {
     searchResult = []
+    searchResultMunicipality = []
+    searchResultMunicipalityStrings = []
     
     weatherResponse = WeatherResponse(count: 0, list: [List(name: "",
                                                             id: 0,
@@ -107,27 +123,33 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
                     do {
                         if searchType == "find?q=" {
                             weatherResponse = try decoder.decode(WeatherResponse.self, from: actualData)
-                            print(weatherResponse)
+                          //  print(weatherResponse)
                         } else {
                             idResponse = try decoder.decode(ListId.self, from: actualData)
-                            print(idResponse)
+                          //  print(idResponse)
                         }
                         
                         DispatchQueue.main.async {
                             if searchType == "find?q=" {
                                 for x in 0..<weatherResponse.count {
                                     searchResult.append(weatherResponse.list[x].name + ", " + weatherResponse.list[x].sys["country"]!)
-                                    //  searchResult.append(weatherResponse.list[x].name + ", " + weatherResponse.list[x].sys[0].country)
+                                    searchResultMunicipality.append(weatherResponse.list[x].id)
                                 }
-                                print("Search count is: \(weatherResponse.count)")
-                                 tableView.reloadData()
+                                print("searchMunicipality is: \(searchResultMunicipality)")
+                                
+                                if tableView != nil {    // UNWRAP HERE WITH IF LET
+                                    tableView?.reloadData()
+                                }
                             } else {
                                 print("idResponse is finished")
+                                searchResultMunicipalityStrings.append(idResponse.name)
+                               //  print("searchMunicipalityStrings are: \(searchResultMunicipalityStrings)")
+                    
                             }
                             
                             //tableView.reloadData()
                             function() // Det är klart!
-                            print("The search array: \(searchResult)")
+                           // print("The search array: \(searchResult)")
                         }
                     } catch let e {
                         print("Error parsing json: \(e)")
@@ -170,22 +192,36 @@ func getWind(index: Int) -> String {
     return String(format: "%.1f m / s", weatherResponse.list[index].wind["speed"]!)
 }
 
-func saveFavouritesToUserDefaults(favArray : [Int]) {
+func saveFavouritesToUserDefaults(favArray : [[String:String]]) {
     defaults.set(favArray, forKey: "favourites")
 }
 
-func saveRecentsToDefaults(recentArray : [Int]) {
+func saveRecentsToDefaults(recentArray : [[String:String]]) {
     defaults.set(recentArray, forKey: "recents")
 }
 
+func loadFavouritesFromDefaults() {
+    if let favourites = defaults.value(forKey: "favourites") as? [[String:String]] {
+        favArray = favourites
+    }
+}
 
+func loadRecentsFromDefaults() {
+    if let recents = defaults.value(forKey: "recents") as? [[String:String]] {
+        recentArray = recents
+    }
+}
 
 func getWeatherPhoto(weather : String) -> String {
     switch weather {
-    case "01d", "01n":
+    case "01d":
         return "Sun_App"
-    case "02d", "03d", "04d", "02n", "03n", "04n":
+    case "01n":
+        return "Moon_App"
+    case "02d", "03d", "04d":
         return "SunCloudy_App"
+    case "02n", "03n", "04n":
+        return "MoonCloudy_App"
     case "09d", "10d", "09n", "10n":
         return "RainCloudy_App"
     case "11d", "11n":
@@ -193,7 +229,7 @@ func getWeatherPhoto(weather : String) -> String {
     case "13d", "13n":
         return "SnowCloudy_App"
     case "50d", "50n":
-        return "SunCloudy_App" //CHANGE TO MIST_APP & ALSO DO NIGHT VERSIONS?
+        return "Misty_App"
     default:
         return "NoImage"
     }

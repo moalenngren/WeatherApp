@@ -9,23 +9,15 @@
 import UIKit
 
 class FavTableViewController: UITableViewController {
-  /*
-    var favStructArray = [FavStruct]()
-    var favStruct = FavStruct()
     
-    struct FavStruct {
-        var photo = ""
-        var country = ""
-        var city = ""
-        var degrees = ""
-        var wind = ""
-        var id = 0
-    }*/
+    var locationString = [""]
+    var favCellSetUp : [[String:String]] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = true
         self.navigationItem.rightBarButtonItem = self.editButtonItem
+        self.favCellSetUp = []
     }
 
     override func didReceiveMemoryWarning() {
@@ -35,7 +27,8 @@ class FavTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         tableView.reloadData()
       //  setCellValues()
-        print("ViewWILLAppear: RELOADS")
+       // print("ViewWILLAppear: RELOADS")
+        loadFavouritesFromDefaults()
     }
 
     // MARK: - Table view data source
@@ -53,56 +46,118 @@ class FavTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "FavCell", for: indexPath) as! FavTableViewCell
         
+        cell.cellIndex = indexPath.row 
         cell.favCellImage.image = nil
         cell.favCellCity.text = ""
         cell.favCellCountry.text = ""
         cell.favCellDegrees.text = ""
-        
-        searchForHits(searchType: "weather?id=", searchString: String(favArray[indexPath.row]), tableView: self.tableView, function: {
+        cell.favCellWind.text = ""
+
+
+        /* TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING
+        searchForHits(searchType: "weather?id=", searchString: favArray[indexPath.row]["id"], tableView: nil, function: {
             
           // här körs när den är klar!
-            cell.favCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png") 
-            cell.favCellCity.text = idResponse.name
-            cell.favCellCountry.text = idResponse.sys.country
-            cell.favCellDegrees.text = String(format: "%.1f °C", idResponse.main["temp"]!)
+          //  favArray[indexPath.row]["location"] = "\(idResponse.name), \(idResponse.sys.country)"
+          //  self.locationString.append("\(idResponse.name), \(idResponse.sys.country)") //Delete this one??
+          //  print("Adds \(String(describing: favArray[indexPath.row]["location"])) to location")
             
-        })
+            
+            cell.favCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png")
+            cell.favCellCity.text = favArray[indexPath.row]["name"]
+            cell.favCellCountry.text = "\(idResponse.name), \(idResponse.sys.country)"
+           // cell.favCellCountry.text = favArray[indexPath.row]["location"]
+            cell.favCellDegrees.text = String(format: "%.1f °C", idResponse.main["temp"]!)
+            cell.favCellWind.text = String(format: "%.1f m / s", idResponse.wind["speed"]!)
+            
+            //Test for getting the correct info when clicking a row
+            let setUp = ["image" : "\(getWeatherPhoto(weather: favResult[indexPath.row].weather[0].icon)).png",
+                "city" : favArray[indexPath.row]["name"]!,
+                "country" : "\(favResult[indexPath.row].name), \(favResult[indexPath.row].sys.country)",
+                "degrees" : String(format: "%.1f °C", favResult[indexPath.row].main["temp"]!),
+                "wind" : String(format: "%.1f m / s", favResult[indexPath.row].wind["speed"]!),
+                "id" : "\(favResult[indexPath.row].id)"]
+            
+            self.favCellSetUp.append(setUp)
+                 print("The cell set up: ", self.favCellSetUp[indexPath.row])
+            
+        }) */
         
-        print("cellForRowAt")
         
-        /*
-        cell.favCellImage.image = UIImage(named: favStructArray[indexPath.row].photo)
-        cell.favCellCity.text = favStructArray[indexPath.row].city
-        cell.favCellCountry.text = favStructArray[indexPath.row].country
-        cell.favCellDegrees.text = favStructArray[indexPath.row].degrees */
         
+        
+        //TESTING TESTING
+        if let safeString = favArray[indexPath.row]["id"]?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+            let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?id=\(safeString)&type=like&APPID=88a00eb1b4f10cb2a53e66a426a15110&units=metric") {
+            let request = URLRequest(url: url)
+            let task = URLSession.shared.dataTask(with: request, completionHandler: { (data : Data?, response : URLResponse?, error : Error?) in
+                print("Got response from server")
+                if let actualError = error {
+                    print(actualError)
+                } else {
+                    if let actualData = data {
+                        
+                        
+                        let decoder = JSONDecoder()
+                        
+                        do {
+                            idResponse = try decoder.decode(ListId.self, from: actualData)
+                            //print(idResponse)
+                            
+                            DispatchQueue.main.async {
+  
+                                print("idResponse is finished")
+                                searchResultMunicipalityStrings.append(idResponse.name)
+                                //  print("searchMunicipalityStrings are: \(searchResultMunicipalityStrings)")
+                                
+                                cell.favCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png")
+                                cell.favCellCity.text = favArray[indexPath.row]["name"]
+                                cell.favCellCountry.text = "\(idResponse.name), \(idResponse.sys.country)"
+                                // cell.favCellCountry.text = favArray[indexPath.row]["location"]
+                                cell.favCellDegrees.text = String(format: "%.1f °C", idResponse.main["temp"]!)
+                                cell.favCellWind.text = String(format: "%.1f m / s", idResponse.wind["speed"]!)
+                                
+                                //tableView.reloadData()
+                                // function() // Det är klart!
+                                // print("The search array: \(searchResult)")
+                                
+                                
+                                let setUp = ["image" : "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png",
+                                    "city" : favArray[indexPath.row]["name"]!,
+                                    "country" : "\(idResponse.name), \(idResponse.sys.country)",
+                                    "degrees" : String(format: "%.1f °C", idResponse.main["temp"]!),
+                                    "wind" : String(format: "%.1f m / s", idResponse.wind["speed"]!),
+                                    "id" : "\(idResponse.id)"]
+                                
+                                self.favCellSetUp.append(setUp)
+                               // print("The cell set up: ", self.favCellSetUp[indexPath.row])
+                                
+                            }
+                        } catch let e {
+                            print("Error parsing json: \(e)")
+                            if let jsonString = String(data: actualData, encoding: String.Encoding.utf8) {
+                                print("Json string: \(jsonString)")
+                            }
+                            
+                        }
+                    } else {
+                        print("Data was nil")
+                    }
+                }
+            })
+            task.resume()
+            print("Sending request")
+        }
+        else {
+            print("Incorrect URL")
+        }
+        
+    
         return cell
     }
     
-    
-    /*
-    func setCellValues() {
-        for x in favArray {
-            print("setCellValues")
-            searchForHits(searchType: "weather?id=", searchString: String(x), tableView: self.tableView, function: {
-                
-                print("Setting all cell values to struct from: \(idResponse)")
-                self.favStruct.photo = "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png"
-                self.favStruct.city = idResponse.name
-                self.favStruct.country = idResponse.sys.country
-                self.favStruct.degrees = String(format: "%.1f °C", idResponse.main["temp"]!)
-                self.favStruct.wind = String(format: "%.1f m / s", idResponse.wind["speed"]!)
-                self.favStruct.id = idResponse.id
-                
-                self.favStructArray.append(self.favStruct)
-                print("FavStructArray contains: \(self.favStructArray)")
-                
-            })
-        }
-    } */
-    
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 87
+        return 75
     }
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -112,20 +167,13 @@ class FavTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             favArray.remove(at: indexPath.row)
+            favCellSetUp.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.reloadData()
+            saveFavouritesToUserDefaults(favArray : favArray)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
-    }
-    
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-    //Change fav array here??????
-    }
-
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        return true
     }
 
     // MARK: - Navigation
@@ -135,21 +183,33 @@ class FavTableViewController: UITableViewController {
             
         if segue.identifier == "Detail" {
             let next : DetailViewController = segue.destination as! DetailViewController
-            /*
-                next.cityLabelString = favStructArray[cell.cellIndex].city
-                next.countryLabelString = favStructArray[cell.cellIndex].country
-                next.degreesLabelString = String(format: "%.1f °C", favStructArray[cell.cellIndex].degrees)
-                next.windLabelString = String(format: "%.1f m / s", favStructArray[cell.cellIndex].wind)
-                next.photoString = "\(getWeatherPhoto(weather: favStructArray[cell.cellIndex].photo)).png"
-                next.id = Int(idResponse.id)
-                */
             
-           next.photoString = "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png"
-            next.cityLabelString = idResponse.name
-            next.countryLabelString = idResponse.sys.country
+            /*    //Old code, does not work when updating the rows in wrong order
+            next.photoString = "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png"
+            next.cityLabelString =  favArray[cell.cellIndex]["name"]!
+           // next.countryLabelString = favArray[cell.cellIndex]["location"]!
+            next.countryLabelString = "\(idResponse.name), \(idResponse.sys.country)"
             next.degreesLabelString = String(format: "%.1f °C", idResponse.main["temp"]!)
-             next.windLabelString = String(format: "%.1f m / s", idResponse.wind["speed"]!)
-            next.id = idResponse.id
+            next.windLabelString = String(format: "%.1f m / s", idResponse.wind["speed"]!)
+            next.id = idResponse.id */
+            print("Clicked row: \(cell.cellIndex)")
+            print("The whole cell set up: ", self.favCellSetUp)
+            print("Sends this info to detail: \(self.favCellSetUp[cell.cellIndex!])")
+            
+            next.cityLabelString = cell.favCellCity.text!
+          //  next.photoString = cell.favCellImage.image
+            next.countryLabelString = cell.favCellCountry.text!
+            next.degreesLabelString = cell.favCellDegrees.text!
+             next.windLabelString = cell.favCellWind.text!
+            
+            /*
+            next.photoString = self.favCellSetUp[cell.cellIndex!]["image"]!
+           next.cityLabelString =  self.favCellSetUp[cell.cellIndex!]["city"]!
+            next.countryLabelString = self.favCellSetUp[cell.cellIndex!]["country"]!
+            next.degreesLabelString = self.favCellSetUp[cell.cellIndex!]["degrees"]!
+            next.windLabelString = self.favCellSetUp[cell.cellIndex!]["wind"]!
+           // next.id = self.favCellSetUp[cell.cellIndex]["id"]!
+            next.id = idResponse.id //Do something about this, make Int to String?? */
             }
 
     }

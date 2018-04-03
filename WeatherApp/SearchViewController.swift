@@ -31,6 +31,17 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         cell.cellIndex = indexPath.row
         cell.searchCellLabel.text = searchResult[indexPath.row]
+        
+   //     cell.municipalityLabel.text = searchResultMunicipalityStrings[indexPath.row]
+        /*
+        searchForHits(searchType: "weather?id=", searchString: String(searchResultMunicipality[indexPath.row]), tableView: nil, function: {
+            print("In the function of municiplaity argument")
+            print("Current value of idResponse.name is: \(idResponse.name)")
+      
+                cell.municipalityLabel.text = idResponse.name // searchResultMunicipalityStrings[indexPath.row]
+        }) */
+
+        
         return cell
     }
 
@@ -42,7 +53,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     override func viewWillAppear(_ animated: Bool) {
         searchField.text = ""
         searchResult = []
+        searchResultMunicipality = []
+        searchResultMunicipalityStrings = []
         searchTableView.reloadData()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,8 +68,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func createURL() {
-      //  searchResult = []
         searchForHits(searchType: "find?q=", searchString: self.searchField.text, tableView: searchTableView, function: {})
+      /*  for x in searchResultMunicipality {
+            searchForHits(searchType: "weather?id=", searchString: String(x), tableView: nil, function: {})
+        } */
     }
     
     // MARK: - Navigation
@@ -72,7 +88,10 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     next.photoString = getWeatherString(index: cell.cellIndex)
                     next.cellIndex = cell.cellIndex
                     next.id = weatherResponse.list[cell.cellIndex].id
-                    recentArray.append(idResponse.id)
+            
+            //Append to array as first element. If count > 4, erase the rest
+                    recentArray.append(["name" : getCityName(index: cell.cellIndex), "id": String(weatherResponse.list[cell.cellIndex].id)])
+                    saveRecentsToDefaults(recentArray : recentArray)
         }
     }
 }
