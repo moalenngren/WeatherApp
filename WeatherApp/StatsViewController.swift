@@ -18,11 +18,9 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     var picker1Id = 0
     var picker2Id = 0
     
-    var testNameArray = ["Skövde", "Stockholm", "Floby", "Madrid", "Göteborg"]
-    var testValueArray = [30, 50]
-    var diagramTitles = ["Temp", "Temp", "Wind", "Wind", "Rain", "Rain"]
+    var diagramTitles = ["Error", "Error", "Error", "Error", "Error", "Error"]
     var diagramColors = [UIColor.red, UIColor.red, UIColor.gray, UIColor.gray, UIColor.blue, UIColor.blue]
-    var diagramValues = [20, 60, 100, 80, 40, 90]
+    var diagramValues = [0, 0, 0, 0, 0, 0]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +28,7 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         diagram.dataSource = self
         diagram.barHeight = 300
         diagram.barWidth = 40
-        diagram.draw()
+       // diagram.draw()
         
         self.picker1.delegate = self
         self.picker1.dataSource = self
@@ -62,7 +60,34 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     }
     
     @IBAction func compareButton(_ sender: Any) {
-        drawRect()
+        searchForHits(searchType: "weather?id=", searchString: favArray[picker1Id]["id"], tableView: nil, function: {
+            self.diagramTitles[0] = "\(Int(idResponse.main["temp"]!.rounded()))°C"
+            self.diagramValues[0] = Int(idResponse.main["temp"]!.rounded()) * 2
+            self.diagramTitles[2] = "\(Int(idResponse.wind["speed"]!.rounded()))m/s" //WHY IS THIS NIL?????
+            self.diagramValues[2] = Int(idResponse.wind["speed"]!) * 7
+            self.diagramTitles[4] = "\(Int(idResponse.main["humidity"]!))%"
+            self.diagramValues[4] = Int(idResponse.main["humidity"]!)
+        
+            searchForHits(searchType: "weather?id=", searchString: favArray[self.picker2Id]["id"], tableView: nil, function: {
+               // self.diagramTitles[1] = (String(format: "%.1f°C", idResponse.main["temp"]!))
+               // var number = idResponse.main["temp"]!
+               // self.diagramTitles[1] = "\(number.rounded())°C"
+                self.diagramTitles[1] = "\(Int(idResponse.main["temp"]!.rounded()))°C"
+                self.diagramValues[1] = Int(idResponse.main["temp"]!.rounded()) * 2
+                self.diagramTitles[3] = "\(Int(idResponse.wind["speed"]!.rounded()))m/s"
+                self.diagramValues[3] = Int(idResponse.wind["speed"]!) * 7
+                self.diagramTitles[5] = "\(Int(idResponse.main["humidity"]!))%"
+                self.diagramValues[5] = Int(idResponse.main["humidity"]!)
+                
+                self.diagram.draw()
+                print("compareButton Clicked, diagramTitles are now: \(self.diagramTitles)")
+                print("compareButton Clicked, and diagramValues are now: \(self.diagramValues)")
+            
+            })
+            
+        })
+        
+
     }
 
     override func didReceiveMemoryWarning() {

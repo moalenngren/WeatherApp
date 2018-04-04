@@ -62,7 +62,7 @@ struct List : Codable {
     let name : String
     let id : Int
     let sys : [String : String] //"country" : "SE"
-    let main : [String : Float] //"temp" : 12345
+    let main : [String : Float] //"temp" : 12345, "humidity" : 1234
     let wind : [String : Float]
     let weather : [Weather]
 }

@@ -18,7 +18,8 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     let degreeArrayTest = ["+3°", "-1°", "-10°", "-13°", "+5°"] */
     
     override func viewWillAppear(_ animated: Bool) {
-        loadRecentsFromDefaults()
+      //  loadRecentsFromDefaults()
+        saveRecentsToDefaults(recentArray: [["" : ""]])
         homeTableView.reloadData()
     }
     
