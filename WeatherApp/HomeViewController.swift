@@ -31,22 +31,22 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         
         dynamicAnimator = UIDynamicAnimator(referenceView: self.bannerView)
         gravity = UIGravityBehavior(items: [logo])
+        gravity.magnitude = 0.4
         collision = UICollisionBehavior(items: [logo])
         collision.translatesReferenceBoundsIntoBoundary = true
         dynamicAnimator.addBehavior(gravity)
         dynamicAnimator.addBehavior(collision)
         
-    
+        UIView.animate(withDuration: 4.0, animations: ({
+            self.sun.transform = CGAffineTransform(rotationAngle: 360)
+        }))
     }
     
     override func viewWillAppear(_ animated: Bool) {
         loadRecentsFromDefaults()
       //  saveRecentsToDefaults(recentArray: [["" : ""]])
         homeTableView.reloadData()
-        
-        UIView.animate(withDuration: 4.0, animations: ({
-            self.sun.transform = CGAffineTransform(rotationAngle: 360)
-        }))
+    
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

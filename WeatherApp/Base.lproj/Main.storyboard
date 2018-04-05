@@ -120,7 +120,7 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SunCloudy_Cloud1" translatesAutoresizingMaskIntoConstraints="NO" id="4LA-bK-rxt">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="208"/>
                                     </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="VäderApp_Logo1" translatesAutoresizingMaskIntoConstraints="NO" id="cs4-nV-Sug">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="VäderApp_Logo2" translatesAutoresizingMaskIntoConstraints="NO" id="cs4-nV-Sug">
                                         <rect key="frame" x="21" y="-15" width="333" height="109"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
@@ -655,7 +655,7 @@
         <image name="SunCloudy_Cloud2" width="602" height="602"/>
         <image name="SunCloudy_Cloud3" width="602" height="602"/>
         <image name="SunCloudy_SunCenter" width="333" height="333"/>
-        <image name="VäderApp_Logo1" width="573" height="143"/>
+        <image name="VäderApp_Logo2" width="573" height="143"/>
         <image name="bar-chart" width="30" height="30"/>
         <image name="home" width="30" height="30"/>
         <image name="love" width="30" height="30"/>
