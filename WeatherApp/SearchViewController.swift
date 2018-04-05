@@ -89,9 +89,13 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     next.cellIndex = cell.cellIndex
                     next.id = weatherResponse.list[cell.cellIndex].id
             
-            //Append to array as first element. If count > 4, erase the rest
-                    recentArray.append(["name" : getCityName(index: cell.cellIndex), "id": String(weatherResponse.list[cell.cellIndex].id)])
-                    saveRecentsToDefaults(recentArray : recentArray)
+            recentArray.insert(["name" : getCityName(index: cell.cellIndex), "id": String(weatherResponse.list[cell.cellIndex].id)], at: 0)
+          
+            if recentArray.count > 5 {
+               // recentArray.remove(at: 5)
+                recentArray.removeLast()
+            }
+            saveRecentsToDefaults(recentArray : recentArray)
         }
     }
 }

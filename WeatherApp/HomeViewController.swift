@@ -11,16 +11,42 @@ import UIKit
 class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     @IBOutlet weak var homeTableView: UITableView!
     
-    /*
-    let imageArrayTest = ["Sun_App", "SunCloudy_App", "RainCloudy_App", "ThunderCloudy_App", "SnowCloudy_App"]
-    let cityArrayTest = ["Stockholm", "Gothenburg", "Skövde", "Lerdala", "New York"]
-    let countryArrayTest = ["Sweden", "Sweden", "Sweden", "Sweden", "USA"]
-    let degreeArrayTest = ["+3°", "-1°", "-10°", "-13°", "+5°"] */
+    @IBOutlet weak var bannerView: UIView!
+    @IBOutlet weak var cloud2: UIImageView!
+    @IBOutlet weak var cloud1: UIImageView!
+    @IBOutlet weak var cloud3: UIImageView!
+    @IBOutlet weak var sun: UIImageView!
+    @IBOutlet weak var logo: UIImageView!
+    
+    var dynamicAnimator : UIDynamicAnimator!
+    var gravity : UIGravityBehavior!
+    var collision : UICollisionBehavior!
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+         // view.addSubview(bannerView)
+      //  bannerView.addSubview(logo)
+        
+        dynamicAnimator = UIDynamicAnimator(referenceView: self.bannerView)
+        gravity = UIGravityBehavior(items: [logo])
+        collision = UICollisionBehavior(items: [logo])
+        collision.translatesReferenceBoundsIntoBoundary = true
+        dynamicAnimator.addBehavior(gravity)
+        dynamicAnimator.addBehavior(collision)
+        
+    
+    }
     
     override func viewWillAppear(_ animated: Bool) {
-      //  loadRecentsFromDefaults()
-        saveRecentsToDefaults(recentArray: [["" : ""]])
+        loadRecentsFromDefaults()
+      //  saveRecentsToDefaults(recentArray: [["" : ""]])
         homeTableView.reloadData()
+        
+        UIView.animate(withDuration: 4.0, animations: ({
+            self.sun.transform = CGAffineTransform(rotationAngle: 360)
+        }))
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -74,11 +100,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     // func when rows are clicked = opens detail view
     // func when no places are searched for is empty = set header to popular places
     // and if not, set to recent searches
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

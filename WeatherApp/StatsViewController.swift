@@ -84,10 +84,7 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
                 print("compareButton Clicked, and diagramValues are now: \(self.diagramValues)")
             
             })
-            
         })
-        
-
     }
 
     override func didReceiveMemoryWarning() {

@@ -29,6 +29,7 @@ class FavTableViewController: UITableViewController {
       //  setCellValues()
        // print("ViewWILLAppear: RELOADS")
         loadFavouritesFromDefaults()
+      //  downloadAllResponses()
     }
 
     // MARK: - Table view data source
@@ -41,6 +42,16 @@ class FavTableViewController: UITableViewController {
         return favArray.count
         
     }
+    /*
+    func downloadAllResponses() {
+        for x in favArray {
+            print("downloading response for \(x)")
+            searchForHits(searchType: "weather?id=", searchString: x["id"], tableView: nil, function: {
+                    self.allIdResponses.append(idResponse)
+            print("finishing response for \(x)")
+             })
+        }
+    }*/
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -52,9 +63,12 @@ class FavTableViewController: UITableViewController {
         cell.favCellCountry.text = ""
         cell.favCellDegrees.text = ""
         cell.favCellWind.text = ""
+        
+        print("cell for row")
+        
+       
 
-
-        /* TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING
+        // TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING TESTING
         searchForHits(searchType: "weather?id=", searchString: favArray[indexPath.row]["id"], tableView: nil, function: {
             
           // här körs när den är klar!
@@ -62,13 +76,14 @@ class FavTableViewController: UITableViewController {
           //  self.locationString.append("\(idResponse.name), \(idResponse.sys.country)") //Delete this one??
           //  print("Adds \(String(describing: favArray[indexPath.row]["location"])) to location")
             
-            
+            /*
             cell.favCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png")
             cell.favCellCity.text = favArray[indexPath.row]["name"]
             cell.favCellCountry.text = "\(idResponse.name), \(idResponse.sys.country)"
            // cell.favCellCountry.text = favArray[indexPath.row]["location"]
             cell.favCellDegrees.text = String(format: "%.1f °C", idResponse.main["temp"]!)
             cell.favCellWind.text = String(format: "%.1f m / s", idResponse.wind["speed"]!)
+            
             
             //Test for getting the correct info when clicking a row
             let setUp = ["image" : "\(getWeatherPhoto(weather: favResult[indexPath.row].weather[0].icon)).png",
@@ -80,12 +95,20 @@ class FavTableViewController: UITableViewController {
             
             self.favCellSetUp.append(setUp)
                  print("The cell set up: ", self.favCellSetUp[indexPath.row])
+         */
             
-        }) */
+            cell.favCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: allIdResponses[indexPath.row].weather[0].icon)).png")
+            cell.favCellCity.text = favArray[indexPath.row]["name"]
+            cell.favCellCountry.text = "\(allIdResponses[indexPath.row].name), \(allIdResponses[indexPath.row].sys.country)"
+            cell.favCellDegrees.text = String(format: "%.1f °C", allIdResponses[indexPath.row].main["temp"]!)
+            cell.favCellWind.text = String(format: "%.1f m / s", allIdResponses[indexPath.row].wind["speed"]!)
+
+        })
+ 
+    
         
         
-        
-        
+        /*
         //TESTING TESTING
         if let safeString = favArray[indexPath.row]["id"]?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
             let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?id=\(safeString)&type=like&APPID=88a00eb1b4f10cb2a53e66a426a15110&units=metric") {
@@ -132,6 +155,8 @@ class FavTableViewController: UITableViewController {
                                 self.favCellSetUp.append(setUp)
                                // print("The cell set up: ", self.favCellSetUp[indexPath.row])
                                 
+                              
+                                
                             }
                         } catch let e {
                             print("Error parsing json: \(e)")
@@ -151,7 +176,7 @@ class FavTableViewController: UITableViewController {
         else {
             print("Incorrect URL")
         }
-        
+         */
     
         return cell
     }

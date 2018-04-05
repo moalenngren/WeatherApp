@@ -9,6 +9,8 @@
 import UIKit
 
 var defaults = UserDefaults.standard
+
+ var allIdResponses : [ListId] = [] //test
 //var favArray : [FavItem] = []
 //var favArray : [[String : String]] () //= [[:]]
 var favArray : [[String : String]] = []
@@ -144,7 +146,7 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
                                 print("idResponse is finished")
                                 searchResultMunicipalityStrings.append(idResponse.name)
                                //  print("searchMunicipalityStrings are: \(searchResultMunicipalityStrings)")
-                    
+                              allIdResponses.append(idResponse)
                             }
                             
                             //tableView.reloadData()
@@ -209,6 +211,8 @@ func loadFavouritesFromDefaults() {
 func loadRecentsFromDefaults() {
     if let recents = defaults.value(forKey: "recents") as? [[String:String]] {
         recentArray = recents
+    } else {
+        recentArray = []
     }
 }
 
