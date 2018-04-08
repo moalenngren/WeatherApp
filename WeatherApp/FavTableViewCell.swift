@@ -15,6 +15,9 @@ class FavTableViewCell: UITableViewCell {
     @IBOutlet weak var favCellWind: UILabel!
     @IBOutlet weak var favCellDegrees: UILabel!
     var cellIndex : Int!
+    var degreesValue : Int!
+    var photoString : String!
+    var id : Int!
     
     override func awakeFromNib() {
         super.awakeFromNib()

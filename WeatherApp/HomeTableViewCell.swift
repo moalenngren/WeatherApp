@@ -14,6 +14,10 @@ class HomeTableViewCell: UITableViewCell {
     @IBOutlet weak var homeCellCountry: UILabel!
     @IBOutlet weak var homeCellDegrees: UILabel!
     var cellIndex : Int!
+    var degreesValue : Int!
+    var windValue: Float!
+    var photoString : String!
+    var id : Int!
     
     override func awakeFromNib() {
         super.awakeFromNib()

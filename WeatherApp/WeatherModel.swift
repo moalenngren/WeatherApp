@@ -10,7 +10,8 @@ import UIKit
 
 var defaults = UserDefaults.standard
 
- var allIdResponses : [ListId] = [] //test
+var allIdResponses : [ListId?] = [] //test
+var newNames : [String] = []
 //var favArray : [FavItem] = []
 //var favArray : [[String : String]] () //= [[:]]
 var favArray : [[String : String]] = []
@@ -95,7 +96,7 @@ struct ListId : Codable {
     let weather : [Weather]
 }
         
-func searchForHits(searchType: String, searchString: String?, tableView : UITableView?, function: @escaping () -> ()) {
+func searchForHits(searchType: String, searchString: String?, tableView : UITableView?, cell: String, name: String, function: @escaping () -> ()) {
     searchResult = []
     searchResultMunicipality = []
     searchResultMunicipalityStrings = []
@@ -114,12 +115,11 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
         let request = URLRequest(url: url)
         let task = URLSession.shared.dataTask(with: request, completionHandler: { (data : Data?, response : URLResponse?, error : Error?) in
             print("Got response from server")
+            
             if let actualError = error {
                 print(actualError)
             } else {
                 if let actualData = data {
-                    
-                    
                     let decoder = JSONDecoder()
                     
                     do {
@@ -137,7 +137,7 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
                                     searchResult.append(weatherResponse.list[x].name + ", " + weatherResponse.list[x].sys["country"]!)
                                     searchResultMunicipality.append(weatherResponse.list[x].id)
                                 }
-                                print("searchMunicipality is: \(searchResultMunicipality)")
+                              //  print("searchMunicipality is: \(searchResultMunicipality)")
                                 
                                 if tableView != nil {    // UNWRAP HERE WITH IF LET
                                     tableView?.reloadData()
@@ -146,12 +146,16 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
                                 print("idResponse is finished")
                                 searchResultMunicipalityStrings.append(idResponse.name)
                                //  print("searchMunicipalityStrings are: \(searchResultMunicipalityStrings)")
-                              allIdResponses.append(idResponse)
+                              /*  if cell == "fav" {
+                                    allIdResponses.append(idResponse)
+                                    newNames.append(name)
+                                    print("Appends the idRespnse to allIdResponses. Adds: \(idResponse.name) ")
+                                    if tableView != nil {    // UNWRAP HERE WITH IF LET
+                                        tableView?.reloadData()
+                                    }
+                                } */
                             }
-                            
-                            //tableView.reloadData()
-                            function() // Det är klart!
-                           // print("The search array: \(searchResult)")
+                            function()
                         }
                     } catch let e {
                         print("Error parsing json: \(e)")
@@ -183,7 +187,6 @@ func getCityName(index: Int) -> String {
 
 func getCountry(index: Int) -> String {
    return weatherResponse.list[index].sys["country"]!
-   // return weatherResponse.list[index].sys[0].country
 }
 
 func getDegrees(index: Int) -> String {
@@ -240,7 +243,8 @@ func getWeatherPhoto(weather : String) -> String {
 }
 
 func getWeatherString(index: Int) -> String {
-    return "\(getWeatherPhoto(weather: weatherResponse.list[index].weather[0].icon)).png"
+   // return "\(getWeatherPhoto(weather: weatherResponse.list[index].weather[0].icon)).png"
+    return "\(weatherResponse.list[index].weather[0].icon)"
 }
 
 

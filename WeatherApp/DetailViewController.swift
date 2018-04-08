@@ -22,36 +22,29 @@ class DetailViewController: UIViewController {
     var countryLabelString = ""
     var degreesLabelString = ""
     var windLabelString = ""
-    var cellIndex = 0
     var id = 0
-    
-   // ---- NEW VALUES ----
-   // var photoString = ""
-   // var cityLabelString = ""
-   // var countryLabelString = ""
     var degreesValue = 0
-    var windValue = 0
-   // var cellIndex = 0
-   // var id = 0
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        photo.image = UIImage(named: photoString)
+
+    override func viewWillAppear(_ animated: Bool) {
+
+        print("id is \(id)")
+        changeButtonLabel()
+        calculateRecommendation()
+        
+        photo.image = UIImage(named: getWeatherPhoto(weather: photoString))
         cityLabel.text = cityLabelString
         countryLabel.text = countryLabelString
         degreesLabel.text = degreesLabelString
         windLabel.text = windLabelString
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        changeButtonLabel()
-        calculateRecommendation()
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -66,7 +59,6 @@ class DetailViewController: UIViewController {
         }
     }
     
-    //Move this content to Model?????
     @IBAction func addToFavourites(_ sender: UIButton) {
         if favArray.contains(where: {$0 == ["name": cityLabelString, "id": String(id)]}) {
             favArray = favArray.filter() {$0 != ["name": cityLabelString, "id": String(id)]}
@@ -88,25 +80,28 @@ class DetailViewController: UIViewController {
         case -14 ... 0:
             recString = "It's very cold outside, don't forget your långkalsoner!"
         case 1 ... 10:
-            recString = "It's still pretty cold outside, you might still wanna use that scarf!"
+            recString = "It's still pretty cold outside, you could use a scarf!"
         case 11 ... 20:
-            recString = "It's quite warm outside, bring out your thin jacket!"
+            recString = "It's quite warm outside, bring your thin jacket!"
         case 21 ... 28:
-            recString = "The weather is hot, you might wanna use those shorts!"
+            recString = "The weather is hot, you might wanna put on a pair of shorts!"
         case 29 ... 100:
-            recString = "The weather is freaking super hot, you should go naked to survive!"
+            recString = "The weather is freaking super hot, you should wear as little as possible if you want to survive!"
         default:
             recString = ""
         }
         
         var recString2 : String
         
+        print("Photostring is \(photoString)")
         switch photoString {
         case "01d": //Sun
             recString2 = "Besides that, now's the time to look really cool in sunglasses."
-        case "09d", "10d", "09n", "10n": //RainClody
+        case "02d", "03d", "04d": //Cloudy
+            recString2 = "But on the other hand, it's also quite cloudy. You might just stay at home and watch Netflix."
+        case "09d", "10d", "09n", "10n": //Rain
             recString2 = "Besides that, if you don't wanna be soaked - an umbrella would be perfect today."
-        case "11d", "11n": //ThunderCloudy
+        case "11d", "11n": //Thunder
             recString2 = "Besides that, stay away from open spaces and lakes. There might be some thunder today "
         default:
             recString2 = ""

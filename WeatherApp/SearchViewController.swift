@@ -68,7 +68,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func createURL() {
-        searchForHits(searchType: "find?q=", searchString: self.searchField.text, tableView: searchTableView, function: {})
+        searchForHits(searchType: "find?q=", searchString: self.searchField.text, tableView: searchTableView, cell: "", name: "", function: {})
       /*  for x in searchResultMunicipality {
             searchForHits(searchType: "weather?id=", searchString: String(x), tableView: nil, function: {})
         } */
@@ -84,15 +84,14 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
                     next.cityLabelString = getCityName(index: cell.cellIndex)
                     next.countryLabelString = getCountry(index: cell.cellIndex)
                     next.degreesLabelString = getDegrees(index: cell.cellIndex)
+                    next.degreesValue = Int(weatherResponse.list[cell.cellIndex].main["temp"]!.rounded())
                     next.windLabelString = getWind(index: cell.cellIndex)
                     next.photoString = getWeatherString(index: cell.cellIndex)
-                    next.cellIndex = cell.cellIndex
                     next.id = weatherResponse.list[cell.cellIndex].id
-            
+         
+            //Adding search item to the "recent search array" at first place. Deletes last item if the array contains more than 5 items
             recentArray.insert(["name" : getCityName(index: cell.cellIndex), "id": String(weatherResponse.list[cell.cellIndex].id)], at: 0)
-          
             if recentArray.count > 5 {
-               // recentArray.remove(at: 5)
                 recentArray.removeLast()
             }
             saveRecentsToDefaults(recentArray : recentArray)

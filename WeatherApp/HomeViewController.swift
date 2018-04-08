@@ -26,9 +26,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     override func viewDidLoad() {
         super.viewDidLoad()
         
-         // view.addSubview(bannerView)
-      //  bannerView.addSubview(logo)
-        
         dynamicAnimator = UIDynamicAnimator(referenceView: self.bannerView)
         gravity = UIGravityBehavior(items: [logo])
         gravity.magnitude = 0.4
@@ -44,9 +41,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewWillAppear(_ animated: Bool) {
         loadRecentsFromDefaults()
-      //  saveRecentsToDefaults(recentArray: [["" : ""]])
         homeTableView.reloadData()
-    
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -54,22 +49,35 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-       /* if section == 0 {
-            return "Recent"
-        } */
         return "Recent Searches"
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 74
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCell", for: indexPath) as! HomeTableViewCell
         
-         searchForHits(searchType: "weather?id=", searchString: recentArray[indexPath.row]["id"], tableView: nil, function: {
+        cell.homeCellImage.image = nil
+        cell.homeCellCity.text = ""
+        cell.homeCellCountry.text = ""
+        cell.homeCellDegrees.text = ""
+        
+        searchForHits(searchType: "weather?id=", searchString: recentArray[indexPath.row]["id"], tableView: nil, cell: "home", name: "", function: {
             
         cell.homeCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png")
         cell.homeCellCity.text = recentArray[indexPath.row]["name"]!
         cell.homeCellCountry.text = "\(idResponse.name), \(idResponse.sys.country)"
         cell.homeCellDegrees.text = String(format: "%.1f °C", idResponse.main["temp"]!)
+        cell.degreesValue = Int(idResponse.main["temp"]!.rounded())
+        cell.windValue = idResponse.wind["speed"]! 
+        cell.photoString = idResponse.weather[0].icon
+        cell.id = idResponse.id
             
         })
         
@@ -84,28 +92,14 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         if segue.identifier == "Detail" {
             let next : DetailViewController = segue.destination as! DetailViewController
             
-            next.cityLabelString = ""
-            next.cityLabelString = ""
-            next.degreesLabelString = ""
-            
-            //do a [[String:String]] like favTableView ???
-            
+            next.cityLabelString = cell.homeCellCity.text!
+            next.photoString = cell.photoString
+            next.degreesLabelString = cell.homeCellDegrees.text!
+            next.degreesValue = cell.degreesValue
+            next.windLabelString = "\(Int(cell.windValue.rounded()))m/s" 
+            next.countryLabelString = cell.homeCellCountry.text!
+            next.id = cell.id
         }
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 87
-    }
-    
-    // func when rows are clicked = opens detail view
-    // func when no places are searched for is empty = set header to popular places
-    // and if not, set to recent searches
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        
-    }
-
-
 }
 

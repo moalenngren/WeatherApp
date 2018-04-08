@@ -60,18 +60,15 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     }
     
     @IBAction func compareButton(_ sender: Any) {
-        searchForHits(searchType: "weather?id=", searchString: favArray[picker1Id]["id"], tableView: nil, function: {
+        searchForHits(searchType: "weather?id=", searchString: favArray[picker1Id]["id"], tableView: nil, cell: "", name: "", function: {
             self.diagramTitles[0] = "\(Int(idResponse.main["temp"]!.rounded()))°C"
             self.diagramValues[0] = Int(idResponse.main["temp"]!.rounded()) * 2
-            self.diagramTitles[2] = "\(Int(idResponse.wind["speed"]!.rounded()))m/s" //WHY IS THIS NIL?????
+            self.diagramTitles[2] = "\(Int(idResponse.wind["speed"]!.rounded()))m/s"
             self.diagramValues[2] = Int(idResponse.wind["speed"]!) * 7
             self.diagramTitles[4] = "\(Int(idResponse.main["humidity"]!))%"
             self.diagramValues[4] = Int(idResponse.main["humidity"]!)
         
-            searchForHits(searchType: "weather?id=", searchString: favArray[self.picker2Id]["id"], tableView: nil, function: {
-               // self.diagramTitles[1] = (String(format: "%.1f°C", idResponse.main["temp"]!))
-               // var number = idResponse.main["temp"]!
-               // self.diagramTitles[1] = "\(number.rounded())°C"
+            searchForHits(searchType: "weather?id=", searchString: favArray[self.picker2Id]["id"], tableView: nil, cell: "", name: "", function: {
                 self.diagramTitles[1] = "\(Int(idResponse.main["temp"]!.rounded()))°C"
                 self.diagramValues[1] = Int(idResponse.main["temp"]!.rounded()) * 2
                 self.diagramTitles[3] = "\(Int(idResponse.wind["speed"]!.rounded()))m/s"
