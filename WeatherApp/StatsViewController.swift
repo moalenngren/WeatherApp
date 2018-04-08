@@ -26,15 +26,13 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         super.viewDidLoad()
         
         diagram.dataSource = self
-        diagram.barHeight = 300
-        diagram.barWidth = 40
-       // diagram.draw()
+        diagram.barHeight = 250
+        diagram.barWidth = 35
         
         self.picker1.delegate = self
         self.picker1.dataSource = self
         self.picker2.delegate = self
         self.picker2.dataSource = self
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -60,7 +58,7 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     }
     
     @IBAction func compareButton(_ sender: Any) {
-        searchForHits(searchType: "weather?id=", searchString: favArray[picker1Id]["id"], tableView: nil, cell: "", name: "", function: {
+        searchForHits(searchType: "weather?id=", searchString: favArray[picker1Id]["id"], tableView: nil, function: {
             self.diagramTitles[0] = "\(Int(idResponse.main["temp"]!.rounded()))°C"
             self.diagramValues[0] = Int(idResponse.main["temp"]!.rounded()) * 2
             self.diagramTitles[2] = "\(Int(idResponse.wind["speed"]!.rounded()))m/s"
@@ -68,7 +66,7 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             self.diagramTitles[4] = "\(Int(idResponse.main["humidity"]!))%"
             self.diagramValues[4] = Int(idResponse.main["humidity"]!)
         
-            searchForHits(searchType: "weather?id=", searchString: favArray[self.picker2Id]["id"], tableView: nil, cell: "", name: "", function: {
+            searchForHits(searchType: "weather?id=", searchString: favArray[self.picker2Id]["id"], tableView: nil, function: {
                 self.diagramTitles[1] = "\(Int(idResponse.main["temp"]!.rounded()))°C"
                 self.diagramValues[1] = Int(idResponse.main["temp"]!.rounded()) * 2
                 self.diagramTitles[3] = "\(Int(idResponse.wind["speed"]!.rounded()))m/s"
@@ -77,8 +75,6 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
                 self.diagramValues[5] = Int(idResponse.main["humidity"]!)
                 
                 self.diagram.draw()
-                print("compareButton Clicked, diagramTitles are now: \(self.diagramTitles)")
-                print("compareButton Clicked, and diagramValues are now: \(self.diagramValues)")
             
             })
         })
@@ -109,7 +105,6 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        print("favArray is \(favArray)" )
         return favArray[row]["name"]
     }
     

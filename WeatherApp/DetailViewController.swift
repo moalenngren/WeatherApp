@@ -26,12 +26,10 @@ class DetailViewController: UIViewController {
     var degreesValue = 0
 
     override func viewWillAppear(_ animated: Bool) {
-
-        print("id is \(id)")
         changeButtonLabel()
         calculateRecommendation()
         
-        photo.image = UIImage(named: getWeatherPhoto(weather: photoString))
+        photo.image = UIImage(named: getWeatherPhoto(weather: photoString)+".png")
         cityLabel.text = cityLabelString
         countryLabel.text = countryLabelString
         degreesLabel.text = degreesLabelString

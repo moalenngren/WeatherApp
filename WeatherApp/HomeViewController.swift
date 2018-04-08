@@ -68,7 +68,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.homeCellCountry.text = ""
         cell.homeCellDegrees.text = ""
         
-        searchForHits(searchType: "weather?id=", searchString: recentArray[indexPath.row]["id"], tableView: nil, cell: "home", name: "", function: {
+        searchForHits(searchType: "weather?id=", searchString: recentArray[indexPath.row]["id"], tableView: nil, function: { 
             
         cell.homeCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png")
         cell.homeCellCity.text = recentArray[indexPath.row]["name"]!
@@ -78,9 +78,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
         cell.windValue = idResponse.wind["speed"]! 
         cell.photoString = idResponse.weather[0].icon
         cell.id = idResponse.id
-            
         })
-        
         return cell
     }
     

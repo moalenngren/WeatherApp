@@ -9,19 +9,12 @@
 import UIKit
 
 var defaults = UserDefaults.standard
-
-var allIdResponses : [ListId?] = [] //test
-var newNames : [String] = []
-//var favArray : [FavItem] = []
-//var favArray : [[String : String]] () //= [[:]]
 var favArray : [[String : String]] = []
 var recentArray : [[String : String]] = []
-var favStringArray : [String] = [] //remove?
 var searchResult : [String] = []
-var favResult : [ListId] = [] //remove?
 var searchResultMunicipalityStrings : [String] = [] //remove?
 var searchResultMunicipality : [Int] = [] //remove?
-var weatherResponse = WeatherResponse(count: 0, list: [List(name: "", //Ändra till []????
+var weatherResponse = WeatherResponse(count: 0, list: [List(name: "",
                                                             id: 0,
                                                             sys: ["" : ""],
                                                             main: ["" : 0.0],
@@ -29,18 +22,6 @@ var weatherResponse = WeatherResponse(count: 0, list: [List(name: "", //Ändra t
                                                             weather: [Weather(
                                                                 description: "",
                                                                 icon: "")])])
-
-/*
-var idResponse = List(name: "",
-                      id: 0,
-                      sys: ["":""],
-                      main: ["" : 0.0],
-                      wind: ["" : 0.0],
-                      weather: [Weather(
-                        description: "",
-                        icon: "")]) */
-
-
 
 var idResponse = ListId(name: "",
                       id: 0,
@@ -51,11 +32,6 @@ var idResponse = ListId(name: "",
                         description: "",
                         icon: "")])
 
-struct FavItem { //Delete this??
-    var id = 0
-    var name = ""
-}
-
 struct Weather : Codable {
     let description : String
     let icon : String
@@ -64,8 +40,8 @@ struct Weather : Codable {
 struct List : Codable {
     let name : String
     let id : Int
-    let sys : [String : String] //"country" : "SE"
-    let main : [String : Float] //"temp" : 12345, "humidity" : 1234
+    let sys : [String : String]
+    let main : [String : Float]
     let wind : [String : Float]
     let weather : [Weather]
 }
@@ -96,7 +72,7 @@ struct ListId : Codable {
     let weather : [Weather]
 }
         
-func searchForHits(searchType: String, searchString: String?, tableView : UITableView?, cell: String, name: String, function: @escaping () -> ()) {
+func searchForHits(searchType: String, searchString: String?, tableView : UITableView?, function: @escaping () -> ()) {
     searchResult = []
     searchResultMunicipality = []
     searchResultMunicipalityStrings = []
@@ -125,10 +101,10 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
                     do {
                         if searchType == "find?q=" {
                             weatherResponse = try decoder.decode(WeatherResponse.self, from: actualData)
-                          //  print(weatherResponse)
+                          //print(weatherResponse)
                         } else {
                             idResponse = try decoder.decode(ListId.self, from: actualData)
-                          //  print(idResponse)
+                          //print(idResponse)
                         }
                         
                         DispatchQueue.main.async {
@@ -146,14 +122,7 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
                                 print("idResponse is finished")
                                 searchResultMunicipalityStrings.append(idResponse.name)
                                //  print("searchMunicipalityStrings are: \(searchResultMunicipalityStrings)")
-                              /*  if cell == "fav" {
-                                    allIdResponses.append(idResponse)
-                                    newNames.append(name)
-                                    print("Appends the idRespnse to allIdResponses. Adds: \(idResponse.name) ")
-                                    if tableView != nil {    // UNWRAP HERE WITH IF LET
-                                        tableView?.reloadData()
-                                    }
-                                } */
+
                             }
                             function()
                         }

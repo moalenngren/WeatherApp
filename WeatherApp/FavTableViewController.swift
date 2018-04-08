@@ -17,7 +17,7 @@ class FavTableViewController: UITableViewController {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = true
         self.navigationItem.rightBarButtonItem = self.editButtonItem
-        print("All Id Responses: \(allIdResponses)")
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,15 +38,6 @@ class FavTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return favArray.count
     }
-    /*
-    func downloadAllResponses() {
-        for x in favArray {
-            print("downloading response for \(x)")
-            searchForHits(searchType: "weather?id=", searchString: x["id"], tableView: tableView, cell: "fav", name: x["name"]!, function: {
-            print("finishing response for \(x)")
-             })
-        }
-    } */
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
@@ -59,7 +50,7 @@ class FavTableViewController: UITableViewController {
         cell.favCellDegrees.text = ""
         cell.favCellWind.text = ""
         
-        searchForHits(searchType: "weather?id=", searchString: favArray[indexPath.row]["id"], tableView: nil, cell: "fav", name: "", function: {
+        searchForHits(searchType: "weather?id=", searchString: favArray[indexPath.row]["id"], tableView: nil, function: {
             
             cell.favCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png")
             cell.favCellCity.text = favArray[indexPath.row]["name"]!
@@ -109,7 +100,6 @@ class FavTableViewController: UITableViewController {
             next.windLabelString = cell.favCellWind.text!
             next.countryLabelString = cell.favCellCountry.text!
             next.id = cell.id!
-            print("Sending info from \(cell.favCellCity.text!) with id \(cell.id) to detail, degreesValue: \(cell.degreesValue!), city: \(cell.favCellCountry.text!), pic: \(cell.photoString!)")
         }
     }
 }

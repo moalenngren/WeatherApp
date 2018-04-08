@@ -68,7 +68,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     func createURL() {
-        searchForHits(searchType: "find?q=", searchString: self.searchField.text, tableView: searchTableView, cell: "", name: "", function: {})
+        searchForHits(searchType: "find?q=", searchString: self.searchField.text, tableView: searchTableView, function: {})
       /*  for x in searchResultMunicipality {
             searchForHits(searchType: "weather?id=", searchString: String(x), tableView: nil, function: {})
         } */
