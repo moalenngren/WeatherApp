@@ -11,7 +11,6 @@ import UIKit
 class SearchTableViewCell: UITableViewCell {
 
     @IBOutlet weak var searchCellLabel: UILabel!
-    @IBOutlet weak var municipalityLabel: UILabel!
     
     var cellIndex : Int!
     
@@ -22,7 +21,6 @@ class SearchTableViewCell: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
 

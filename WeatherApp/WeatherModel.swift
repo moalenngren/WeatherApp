@@ -12,8 +12,6 @@ var defaults = UserDefaults.standard
 var favArray : [[String : String]] = []
 var recentArray : [[String : String]] = []
 var searchResult : [String] = []
-var searchResultMunicipalityStrings : [String] = [] //remove?
-var searchResultMunicipality : [Int] = [] //remove?
 var weatherResponse = WeatherResponse(count: 0, list: [List(name: "",
                                                             id: 0,
                                                             sys: ["" : ""],
@@ -49,15 +47,9 @@ struct List : Codable {
 struct WeatherResponse : Codable {
     let count : Int
     let list : [List]
-    
 }
 
-// idResponse --------------------------------
-
 struct Sys : Codable {
-  //  let type : Int
- //   let id : Int
-  //  let message : Double
     let country : String
     let sunrise : Int
     let sunset : Int
@@ -67,24 +59,13 @@ struct ListId : Codable {
     let name : String
     let id : Int
     let sys : Sys
-    let main : [String : Float] //"temp" : 12345
+    let main : [String : Float]
     let wind : [String : Float]
     let weather : [Weather]
 }
         
 func searchForHits(searchType: String, searchString: String?, tableView : UITableView?, function: @escaping () -> ()) {
     searchResult = []
-    searchResultMunicipality = []
-    searchResultMunicipalityStrings = []
-    
-    weatherResponse = WeatherResponse(count: 0, list: [List(name: "",
-                                                            id: 0,
-                                                            sys: ["" : ""],
-                                                                main: ["" : 0.0],
-                                                                wind: ["" : 0.0],
-                                                                weather: [Weather(
-                                                                    description: "",
-                                                                    icon: "")])])
     
     if let safeString = searchString?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
     let url = URL(string: "http://api.openweathermap.org/data/2.5/\(searchType)\(safeString)&type=like&APPID=88a00eb1b4f10cb2a53e66a426a15110&units=metric") {
@@ -111,18 +92,12 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
                             if searchType == "find?q=" {
                                 for x in 0..<weatherResponse.count {
                                     searchResult.append(weatherResponse.list[x].name + ", " + weatherResponse.list[x].sys["country"]!)
-                                    searchResultMunicipality.append(weatherResponse.list[x].id)
                                 }
-                              //  print("searchMunicipality is: \(searchResultMunicipality)")
-                                
-                                if tableView != nil {    // UNWRAP HERE WITH IF LET
+                                if tableView != nil {
                                     tableView?.reloadData()
                                 }
                             } else {
                                 print("idResponse is finished")
-                                searchResultMunicipalityStrings.append(idResponse.name)
-                               //  print("searchMunicipalityStrings are: \(searchResultMunicipalityStrings)")
-
                             }
                             function()
                         }
@@ -131,7 +106,6 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
                         if let jsonString = String(data: actualData, encoding: String.Encoding.utf8) {
                             print("Json string: \(jsonString)")
                         }
-           
                     }
                 } else {
                     print("Data was nil")
@@ -144,10 +118,6 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
     else {
         print("Incorrect URL")
     }
-}
-
-func getWeatherResponse() -> WeatherResponse {
-    return weatherResponse
 }
 
 func getCityName(index: Int) -> String {
@@ -212,7 +182,6 @@ func getWeatherPhoto(weather : String) -> String {
 }
 
 func getWeatherString(index: Int) -> String {
-   // return "\(getWeatherPhoto(weather: weatherResponse.list[index].weather[0].icon)).png"
     return "\(weatherResponse.list[index].weather[0].icon)"
 }
 

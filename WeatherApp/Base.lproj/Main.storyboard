@@ -363,15 +363,15 @@
                                 <color key="backgroundColor" red="0.74130368550000003" green="0.93749443470000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" red="0.74130368550000003" green="0.93749443470000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchCell" rowHeight="73" id="TGd-o1-YTa" customClass="SearchTableViewCell" customModule="WeatherApp" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="375" height="73"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchCell" rowHeight="50" id="TGd-o1-YTa" customClass="SearchTableViewCell" customModule="WeatherApp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="50"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="TGd-o1-YTa" id="aRw-OR-ioQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="72.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="City Name, Country Code" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e0X-Fq-VOH">
-                                                    <rect key="frame" x="16" y="8" width="345" height="21"/>
+                                                    <rect key="frame" x="16" y="14" width="345" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="Ly5-Nf-kqx"/>
                                                         <constraint firstAttribute="width" constant="345" id="X3Y-kv-nKT"/>
@@ -380,27 +380,14 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="More information about the city" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZiJ-C2-r2f">
-                                                    <rect key="frame" x="16" y="37" width="352" height="27.5"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="352" id="su7-cO-QiA"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="ZiJ-C2-r2f" secondAttribute="bottom" constant="8" id="17N-W9-NqE"/>
+                                                <constraint firstItem="e0X-Fq-VOH" firstAttribute="centerY" secondItem="aRw-OR-ioQ" secondAttribute="centerY" id="88K-4r-TRS"/>
                                                 <constraint firstItem="e0X-Fq-VOH" firstAttribute="leading" secondItem="aRw-OR-ioQ" secondAttribute="leading" constant="16" id="I3I-4D-fAI"/>
-                                                <constraint firstItem="e0X-Fq-VOH" firstAttribute="top" secondItem="aRw-OR-ioQ" secondAttribute="top" constant="8" id="P9X-8v-KRD"/>
-                                                <constraint firstItem="ZiJ-C2-r2f" firstAttribute="top" secondItem="e0X-Fq-VOH" secondAttribute="bottom" constant="8" id="dWG-2H-7xZ"/>
-                                                <constraint firstItem="ZiJ-C2-r2f" firstAttribute="leading" secondItem="aRw-OR-ioQ" secondAttribute="leading" constant="16" id="fO9-DE-Vpy"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.74130368550000003" green="0.93749443470000005" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
-                                            <outlet property="municipalityLabel" destination="ZiJ-C2-r2f" id="Qrh-EH-cz0"/>
                                             <outlet property="searchCellLabel" destination="e0X-Fq-VOH" id="116-w1-lRt"/>
                                             <segue destination="eAa-lW-XIp" kind="show" identifier="Detail" id="Evy-RI-V1T"/>
                                         </connections>
@@ -659,7 +646,7 @@
         <image name="love" width="30" height="30"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="dP8-1n-fqs"/>
+        <segue reference="Evy-RI-V1T"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
 </document>

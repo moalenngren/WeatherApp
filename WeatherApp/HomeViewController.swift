@@ -22,7 +22,6 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var gravity : UIGravityBehavior!
     var collision : UICollisionBehavior!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         

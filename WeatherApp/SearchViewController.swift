@@ -31,47 +31,25 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         cell.cellIndex = indexPath.row
         cell.searchCellLabel.text = searchResult[indexPath.row]
-        
-   //     cell.municipalityLabel.text = searchResultMunicipalityStrings[indexPath.row]
-        /*
-        searchForHits(searchType: "weather?id=", searchString: String(searchResultMunicipality[indexPath.row]), tableView: nil, function: {
-            print("In the function of municiplaity argument")
-            print("Current value of idResponse.name is: \(idResponse.name)")
-      
-                cell.municipalityLabel.text = idResponse.name // searchResultMunicipalityStrings[indexPath.row]
-        }) */
-
-        
         return cell
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         searchField.text = ""
         searchResult = []
-        searchResultMunicipality = []
-        searchResultMunicipalityStrings = []
         searchTableView.reloadData()
-        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    func changeRecentArray() {
-        
-    }
-    
     func createURL() {
         searchForHits(searchType: "find?q=", searchString: self.searchField.text, tableView: searchTableView, function: {})
-      /*  for x in searchResultMunicipality {
-            searchForHits(searchType: "weather?id=", searchString: String(x), tableView: nil, function: {})
-        } */
     }
     
     // MARK: - Navigation

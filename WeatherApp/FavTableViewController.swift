@@ -61,8 +61,7 @@ class FavTableViewController: UITableViewController {
             cell.photoString = idResponse.weather[0].icon
             cell.id = idResponse.id
         })
- 
-        return cell
+      return cell
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

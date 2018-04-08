@@ -75,7 +75,6 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
                 self.diagramValues[5] = Int(idResponse.main["humidity"]!)
                 
                 self.diagram.draw()
-            
             })
         })
     }
@@ -106,9 +105,5 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return favArray[row]["name"]
-    }
-    
-    func drawRect() {
-
     }
 }

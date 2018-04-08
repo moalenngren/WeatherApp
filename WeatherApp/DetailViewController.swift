@@ -40,9 +40,6 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-    }
-    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -66,7 +63,7 @@ class DetailViewController: UIViewController {
             print("Adds name + id to favourites, the favArray is now: \(favArray)")
         }
         saveFavouritesToUserDefaults(favArray : favArray)
-       changeButtonLabel()
+        changeButtonLabel()
     }
     
     func calculateRecommendation() {
