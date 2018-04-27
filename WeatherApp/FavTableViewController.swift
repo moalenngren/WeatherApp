@@ -26,7 +26,6 @@ class FavTableViewController: UITableViewController {
         loadFavouritesFromDefaults()
         
         for x in favArray {
-            print("APPENDING FROM FAVARRAY TO FAVDATA")
             favData.append(ListId(name: x["name"]!,
                                   id: Int(x["id"]!)!,
                                   sys: Sys(country: "", sunrise: 0, sunset: 0),
