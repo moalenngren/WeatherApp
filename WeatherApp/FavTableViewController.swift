@@ -10,14 +10,12 @@ import UIKit
 
 class FavTableViewController: UITableViewController {
     
-    var locationString = [""]
-    var favCellSetUp : [[String:String]] = []
+    var favData : [ListId?] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = true
         self.navigationItem.rightBarButtonItem = self.editButtonItem
-
     }
 
     override func didReceiveMemoryWarning() {
@@ -25,8 +23,20 @@ class FavTableViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        tableView.reloadData()
         loadFavouritesFromDefaults()
+        
+        for x in favArray {
+            print("APPENDING FROM FAVARRAY TO FAVDATA")
+            favData.append(ListId(name: x["name"]!,
+                                  id: Int(x["id"]!)!,
+                                  sys: Sys(country: "", sunrise: 0, sunset: 0),
+                                  main: ["temp" : 0.0],
+                                  wind: ["speed" : 0.0],
+                                  weather: [Weather(
+                                    description: "",
+                                    icon: "")]))
+        }
+        downloadData()
     }
 
     // MARK: - Table view data source
@@ -43,25 +53,26 @@ class FavTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "FavCell", for: indexPath) as! FavTableViewCell
         
-        cell.cellIndex = indexPath.row
-        cell.favCellImage.image = nil
-        cell.favCellCity.text = ""
-        cell.favCellCountry.text = ""
-        cell.favCellDegrees.text = ""
-        cell.favCellWind.text = ""
-        
-        searchForHits(searchType: "weather?id=", searchString: favArray[indexPath.row]["id"], tableView: nil, function: {
-            
-            cell.favCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png")
-            cell.favCellCity.text = favArray[indexPath.row]["name"]!
-            cell.favCellCountry.text = "\(idResponse.name), \(idResponse.sys.country)"
-            cell.favCellDegrees.text = String(format: "%.1f °C", idResponse.main["temp"]!)
-            cell.favCellWind.text = String(format: "%.1f m / s", idResponse.wind["speed"]!)
-            cell.degreesValue = Int(idResponse.main["temp"]!.rounded())
-            cell.photoString = idResponse.weather[0].icon
-            cell.id = idResponse.id
-        })
-      return cell
+            if let data = favData[indexPath.row] {
+                cell.favCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: data.weather[0].icon)).png")
+                cell.favCellCity.text = favArray[indexPath.row]["name"]!
+                cell.favCellCountry.text = "\(data.name), \(data.sys.country)"
+                cell.favCellDegrees.text = String(format: "%.1f °C", data.main["temp"]!)
+                cell.favCellWind.text = String(format: "%.1f m / s", data.wind["speed"]!)
+                cell.degreesValue = Int(data.main["temp"]!.rounded())
+                cell.photoString = data.weather[0].icon
+                cell.id = data.id
+            }
+        return cell
+    }
+    
+    func downloadData() {
+        for x in 0..<favArray.count {
+            downloadWeather(searchType: "weather?id=", searchString: favArray[x]["id"], tableView: tableView, function: { listId in
+                self.favData[x] = listId
+                self.tableView.reloadData()
+            })
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -75,11 +86,11 @@ class FavTableViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             favArray.remove(at: indexPath.row)
+            favData.remove(at: indexPath.row) //???
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
             saveFavouritesToUserDefaults(favArray : favArray)
         } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
 

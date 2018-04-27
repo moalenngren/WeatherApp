@@ -21,6 +21,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     var dynamicAnimator : UIDynamicAnimator!
     var gravity : UIGravityBehavior!
     var collision : UICollisionBehavior!
+    var recentData : [ListId?] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +41,27 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     override func viewWillAppear(_ animated: Bool) {
         loadRecentsFromDefaults()
-        homeTableView.reloadData()
+        
+        for x in recentArray {
+            recentData.append(ListId(name: x["name"]!,
+                                  id: Int(x["id"]!)!,
+                                  sys: Sys(country: "", sunrise: 0, sunset: 0),
+                                  main: ["temp" : 0.0],
+                                  wind: ["speed" : 0.0],
+                                  weather: [Weather(
+                                    description: "",
+                                    icon: "")]))
+        }
+        downloadData()
+    }
+    
+    func downloadData() {
+        for x in 0..<recentArray.count {
+            downloadWeather(searchType: "weather?id=", searchString: recentArray[x]["id"], tableView: homeTableView, function: { listId in
+                self.recentData[x] = listId
+                self.homeTableView.reloadData()
+            })
+        }
     }
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -61,23 +82,17 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "HomeCell", for: indexPath) as! HomeTableViewCell
-        
-        cell.homeCellImage.image = nil
-        cell.homeCellCity.text = ""
-        cell.homeCellCountry.text = ""
-        cell.homeCellDegrees.text = ""
-        
-        searchForHits(searchType: "weather?id=", searchString: recentArray[indexPath.row]["id"], tableView: nil, function: { 
-            
-        cell.homeCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: idResponse.weather[0].icon)).png")
-        cell.homeCellCity.text = recentArray[indexPath.row]["name"]!
-        cell.homeCellCountry.text = "\(idResponse.name), \(idResponse.sys.country)"
-        cell.homeCellDegrees.text = String(format: "%.1f °C", idResponse.main["temp"]!)
-        cell.degreesValue = Int(idResponse.main["temp"]!.rounded())
-        cell.windValue = idResponse.wind["speed"]! 
-        cell.photoString = idResponse.weather[0].icon
-        cell.id = idResponse.id
-        })
+
+        if let data = recentData[indexPath.row] {
+            cell.homeCellImage.image = UIImage(named: "\(getWeatherPhoto(weather: data.weather[0].icon)).png")
+            cell.homeCellCity.text = recentArray[indexPath.row]["name"]!
+            cell.homeCellCountry.text = "\(data.name), \(data.sys.country)"
+            cell.homeCellDegrees.text = String(format: "%.1f °C", data.main["temp"]!)
+            cell.windValue = data.wind["speed"]!
+            cell.degreesValue = Int(data.main["temp"]!.rounded())
+            cell.photoString = data.weather[0].icon
+            cell.id = data.id
+        }
         return cell
     }
     

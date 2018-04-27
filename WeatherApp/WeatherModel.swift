@@ -98,6 +98,7 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
                                 }
                             } else {
                                 print("idResponse is finished")
+                                
                             }
                             function()
                         }
@@ -119,6 +120,78 @@ func searchForHits(searchType: String, searchString: String?, tableView : UITabl
         print("Incorrect URL")
     }
 }
+
+
+func downloadWeather(searchType: String, searchString: String?, tableView : UITableView?, function: @escaping (ListId) -> ()) -> ListId {
+    
+    //NEW TEST ---
+    var newResponse = ListId(name: "",
+                            id: 0,
+                            sys: Sys(country: "", sunrise: 0, sunset: 0),
+                            main: ["" : 0.0],
+                            wind: ["" : 0.0],
+                            weather: [Weather(
+                                description: "",
+                                icon: "")]) //--- TO HERE
+    
+    if let safeString = searchString?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+        let url = URL(string: "http://api.openweathermap.org/data/2.5/\(searchType)\(safeString)&type=like&APPID=88a00eb1b4f10cb2a53e66a426a15110&units=metric") {
+        let request = URLRequest(url: url)
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data : Data?, response : URLResponse?, error : Error?) in
+            print("Got response from server")
+            
+            if let actualError = error {
+                print(actualError)
+            } else {
+                if let actualData = data {
+                    let decoder = JSONDecoder()
+                    
+                    do {
+                        if searchType == "find?q=" {
+                            weatherResponse = try decoder.decode(WeatherResponse.self, from: actualData)
+                            //print(weatherResponse)
+                        } else {
+                            newResponse = try decoder.decode(ListId.self, from: actualData)
+                            //print(idResponse)
+                           // return idResponse
+                        }
+                        
+                        DispatchQueue.main.async {
+                            if searchType == "find?q=" {
+                                for x in 0..<weatherResponse.count {
+                                    searchResult.append(weatherResponse.list[x].name + ", " + weatherResponse.list[x].sys["country"]!)
+                                }
+                                if tableView != nil {
+                                    tableView?.reloadData()
+                                }
+                            } else {
+                                print("newResponse is finished")
+                                //return idResponse
+                            }
+                            function(newResponse)
+                        }
+                    } catch let e {
+                        print("Error parsing json: \(e)")
+                        if let jsonString = String(data: actualData, encoding: String.Encoding.utf8) {
+                            print("Json string: \(jsonString)")
+                        }
+                    }
+                } else {
+                    print("Data was nil")
+                }
+            }
+        })
+        task.resume()
+        print("Sending request")
+    }
+    else {
+        print("Incorrect URL")
+    }
+    return newResponse
+}
+
+
+
 
 func getCityName(index: Int) -> String {
     return weatherResponse.list[index].name
