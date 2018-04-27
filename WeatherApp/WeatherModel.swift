@@ -22,13 +22,13 @@ var weatherResponse = WeatherResponse(count: 0, list: [List(name: "",
                                                                 icon: "")])])
 
 var idResponse = ListId(name: "",
-                      id: 0,
-                      sys: Sys(country: "", sunrise: 0, sunset: 0),
-                      main: ["" : 0.0],
-                      wind: ["" : 0.0],
-                      weather: [Weather(
-                        description: "",
-                        icon: "")])
+                        id: 0,
+                        sys: Sys(country: "", sunrise: 0, sunset: 0),
+                        main: ["" : 0.0],
+                        wind: ["" : 0.0],
+                        weather: [Weather(
+                            description: "",
+                            icon: "")])
 
 struct Weather : Codable {
     let description : String
@@ -63,76 +63,9 @@ struct ListId : Codable {
     let wind : [String : Float]
     let weather : [Weather]
 }
-        
+
 func searchForHits(searchType: String, searchString: String?, tableView : UITableView?, function: @escaping () -> ()) {
     searchResult = []
-    
-    if let safeString = searchString?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
-    let url = URL(string: "http://api.openweathermap.org/data/2.5/\(searchType)\(safeString)&type=like&APPID=88a00eb1b4f10cb2a53e66a426a15110&units=metric") {
-        let request = URLRequest(url: url)
-        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data : Data?, response : URLResponse?, error : Error?) in
-            print("Got response from server")
-            
-            if let actualError = error {
-                print(actualError)
-            } else {
-                if let actualData = data {
-                    let decoder = JSONDecoder()
-                    
-                    do {
-                        if searchType == "find?q=" {
-                            weatherResponse = try decoder.decode(WeatherResponse.self, from: actualData)
-                          //print(weatherResponse)
-                        } else {
-                            idResponse = try decoder.decode(ListId.self, from: actualData)
-                          //print(idResponse)
-                        }
-                        
-                        DispatchQueue.main.async {
-                            if searchType == "find?q=" {
-                                for x in 0..<weatherResponse.count {
-                                    searchResult.append(weatherResponse.list[x].name + ", " + weatherResponse.list[x].sys["country"]!)
-                                }
-                                if tableView != nil {
-                                    tableView?.reloadData()
-                                }
-                            } else {
-                                print("idResponse is finished")
-                                
-                            }
-                            function()
-                        }
-                    } catch let e {
-                        print("Error parsing json: \(e)")
-                        if let jsonString = String(data: actualData, encoding: String.Encoding.utf8) {
-                            print("Json string: \(jsonString)")
-                        }
-                    }
-                } else {
-                    print("Data was nil")
-                }
-            }
-        })
-        task.resume()
-        print("Sending request")
-}
-    else {
-        print("Incorrect URL")
-    }
-}
-
-
-func downloadWeather(searchType: String, searchString: String?, tableView : UITableView?, function: @escaping (ListId) -> ()) -> ListId {
-    
-    //NEW TEST ---
-    var newResponse = ListId(name: "",
-                            id: 0,
-                            sys: Sys(country: "", sunrise: 0, sunset: 0),
-                            main: ["" : 0.0],
-                            wind: ["" : 0.0],
-                            weather: [Weather(
-                                description: "",
-                                icon: "")]) //--- TO HERE
     
     if let safeString = searchString?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
         let url = URL(string: "http://api.openweathermap.org/data/2.5/\(searchType)\(safeString)&type=like&APPID=88a00eb1b4f10cb2a53e66a426a15110&units=metric") {
@@ -149,11 +82,8 @@ func downloadWeather(searchType: String, searchString: String?, tableView : UITa
                     do {
                         if searchType == "find?q=" {
                             weatherResponse = try decoder.decode(WeatherResponse.self, from: actualData)
-                            //print(weatherResponse)
                         } else {
-                            newResponse = try decoder.decode(ListId.self, from: actualData)
-                            //print(idResponse)
-                           // return idResponse
+                            idResponse = try decoder.decode(ListId.self, from: actualData)
                         }
                         
                         DispatchQueue.main.async {
@@ -164,10 +94,55 @@ func downloadWeather(searchType: String, searchString: String?, tableView : UITa
                                 if tableView != nil {
                                     tableView?.reloadData()
                                 }
-                            } else {
-                                print("newResponse is finished")
-                                //return idResponse
                             }
+                            function()
+                        }
+                    } catch let e {
+                        print("Error parsing json: \(e)")
+                        if let jsonString = String(data: actualData, encoding: String.Encoding.utf8) {
+                            print("Json string: \(jsonString)")
+                        }
+                    }
+                } else {
+                    print("Data was nil")
+                }
+            }
+        })
+        task.resume()
+        print("Sending request")
+    }
+    else {
+        print("Incorrect URL")
+    }
+}
+
+
+func downloadWeather(searchString: String?, tableView : UITableView?, function: @escaping (ListId) -> ()) -> ListId {
+    var newResponse = ListId(name: "",
+                             id: 0,
+                             sys: Sys(country: "", sunrise: 0, sunset: 0),
+                             main: ["" : 0.0],
+                             wind: ["" : 0.0],
+                             weather: [Weather(
+                                description: "",
+                                icon: "")])
+    
+    if let safeString = searchString?.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+        let url = URL(string: "http://api.openweathermap.org/data/2.5/weather?id=\(safeString)&type=like&APPID=88a00eb1b4f10cb2a53e66a426a15110&units=metric") {
+        let request = URLRequest(url: url)
+        let task = URLSession.shared.dataTask(with: request, completionHandler: { (data : Data?, response : URLResponse?, error : Error?) in
+            print("Got response from server")
+            
+            if let actualError = error {
+                print(actualError)
+            } else {
+                if let actualData = data {
+                    let decoder = JSONDecoder()
+                    
+                    do {
+                        newResponse = try decoder.decode(ListId.self, from: actualData)
+                        
+                        DispatchQueue.main.async {
                             function(newResponse)
                         }
                     } catch let e {
@@ -190,15 +165,12 @@ func downloadWeather(searchType: String, searchString: String?, tableView : UITa
     return newResponse
 }
 
-
-
-
 func getCityName(index: Int) -> String {
     return weatherResponse.list[index].name
 }
 
 func getCountry(index: Int) -> String {
-   return weatherResponse.list[index].sys["country"]!
+    return weatherResponse.list[index].sys["country"]!
 }
 
 func getDegrees(index: Int) -> String {

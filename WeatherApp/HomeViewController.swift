@@ -57,7 +57,7 @@ class HomeViewController: UIViewController, UITableViewDataSource, UITableViewDe
     
     func downloadData() {
         for x in 0..<recentArray.count {
-            downloadWeather(searchType: "weather?id=", searchString: recentArray[x]["id"], tableView: homeTableView, function: { listId in
+            downloadWeather(searchString: recentArray[x]["id"], tableView: homeTableView, function: { listId in
                 self.recentData[x] = listId
                 self.homeTableView.reloadData()
             })

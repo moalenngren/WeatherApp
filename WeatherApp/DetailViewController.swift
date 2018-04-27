@@ -9,7 +9,7 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-
+    
     @IBOutlet weak var addButton: UIButton!
     @IBOutlet weak var recommendationText: UITextView!
     @IBOutlet weak var cityLabel: UILabel!
@@ -24,11 +24,10 @@ class DetailViewController: UIViewController {
     var windLabelString = ""
     var id = 0
     var degreesValue = 0
-
+    
     override func viewWillAppear(_ animated: Bool) {
         changeButtonLabel()
         calculateRecommendation()
-        
         photo.image = UIImage(named: getWeatherPhoto(weather: photoString)+".png")
         cityLabel.text = cityLabelString
         countryLabel.text = countryLabelString
@@ -101,7 +100,7 @@ class DetailViewController: UIViewController {
         default:
             recString2 = ""
         }
-
+        
         self.recommendationText.text = "\(recString) \(recString2)"
         
     }

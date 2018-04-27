@@ -15,10 +15,9 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     @IBOutlet weak var searchField: UITextField!
     
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-      //  return getWeatherResponse().count
         return searchResult.count
     }
-   
+    
     @IBAction func searchButtonClicked(_ sender: Any) {
         createURL()
     }
@@ -33,7 +32,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         cell.searchCellLabel.text = searchResult[indexPath.row]
         return cell
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -43,7 +42,7 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
         searchResult = []
         searchTableView.reloadData()
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
@@ -53,20 +52,20 @@ class SearchViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     // MARK: - Navigation
-
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let cell = sender as! SearchTableViewCell
         
         if segue.identifier == "Detail" {
             let next : DetailViewController = segue.destination as! DetailViewController
-                    next.cityLabelString = getCityName(index: cell.cellIndex)
-                    next.countryLabelString = getCountry(index: cell.cellIndex)
-                    next.degreesLabelString = getDegrees(index: cell.cellIndex)
-                    next.degreesValue = Int(weatherResponse.list[cell.cellIndex].main["temp"]!.rounded())
-                    next.windLabelString = getWind(index: cell.cellIndex)
-                    next.photoString = getWeatherString(index: cell.cellIndex)
-                    next.id = weatherResponse.list[cell.cellIndex].id
-         
+            next.cityLabelString = getCityName(index: cell.cellIndex)
+            next.countryLabelString = getCountry(index: cell.cellIndex)
+            next.degreesLabelString = getDegrees(index: cell.cellIndex)
+            next.degreesValue = Int(weatherResponse.list[cell.cellIndex].main["temp"]!.rounded())
+            next.windLabelString = getWind(index: cell.cellIndex)
+            next.photoString = getWeatherString(index: cell.cellIndex)
+            next.id = weatherResponse.list[cell.cellIndex].id
+            
             //Adding search item to the "recent search array" at first place. Deletes last item if the array contains more than 5 items
             recentArray.insert(["name" : getCityName(index: cell.cellIndex), "id": String(weatherResponse.list[cell.cellIndex].id)], at: 0)
             if recentArray.count > 5 {

@@ -18,9 +18,9 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
     var picker1Id = 0
     var picker2Id = 0
     
-    var diagramTitles = ["Error", "Error", "Error", "Error", "Error", "Error"]
+    var diagramTitles : [String] = []
     var diagramColors = [UIColor.red, UIColor.red, UIColor.gray, UIColor.gray, UIColor.blue, UIColor.blue]
-    var diagramValues = [0, 0, 0, 0, 0, 0]
+    var diagramValues : [Int] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +39,17 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
         loadFavouritesFromDefaults()
         picker1.reloadAllComponents()
         picker2.reloadAllComponents()
+        resetDiagram()
+    }
+    
+    func resetDiagram() {
+        diagramValues.removeAll()
+        diagramTitles.removeAll()
+        for _ in 0...5 {
+            diagramTitles.append("")
+            diagramValues.append(0)
+        }
+        self.diagram.draw()
     }
     
     func numberOfBars() -> Int {
@@ -65,7 +76,7 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             self.diagramValues[2] = Int(idResponse.wind["speed"]!) * 7
             self.diagramTitles[4] = "\(Int(idResponse.main["humidity"]!))%"
             self.diagramValues[4] = Int(idResponse.main["humidity"]!)
-        
+            
             searchForHits(searchType: "weather?id=", searchString: favArray[self.picker2Id]["id"], tableView: nil, function: {
                 self.diagramTitles[1] = "\(Int(idResponse.main["temp"]!.rounded()))°C"
                 self.diagramValues[1] = Int(idResponse.main["temp"]!.rounded()) * 2
@@ -78,31 +89,28 @@ class StatsViewController: UIViewController, UIPickerViewDelegate, UIPickerViewD
             })
         })
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    // Catpure the picker view selection
+
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if pickerView == picker1 {
             picker1Id = row
         }
         if pickerView == picker2 {
-             picker2Id = row
+            picker2Id = row
         }
     }
-    
-    // The number of columns of data
+
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
     
-    // The number of rows of data
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return favArray.count
     }
     
-    // The data to return for the row and component (column) that's being passed in
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         return favArray[row]["name"]
     }
